@@ -23,6 +23,8 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // register the artisan commands
+        $this->commands($this->commands);
     }
 
     /**
