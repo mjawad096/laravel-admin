@@ -32,10 +32,12 @@
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
-                                <i class="feather icon-user"></i> Edit Profile
-                            </a>                           
-                            <div class="dropdown-divider"></div>
+                            @if(request()->router()->has('laravel-admin.profile.edit'))
+                                <a class="dropdown-item" href="{{ route('laravel-admin.profile.edit') }}">
+                                    <i class="feather icon-user"></i> Edit Profile
+                                </a>                           
+                                <div class="dropdown-divider"></div>
+                            @endif
 
                             <a class="dropdown-item" href="" data-logout>
                                 <i class="feather icon-power"></i> Logout
