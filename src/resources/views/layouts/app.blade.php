@@ -30,7 +30,7 @@
 
 @section('main')
     @include('laravel-admin::layouts.header')
-    @include('laravel-admin::layouts.sidebar', ['menu_active' ? $menu_active ?? 'dashboard'])
+    @include('laravel-admin::layouts.sidebar', ['menu_active' => $menu_active ?? 'dashboard'])
 
     <!-- BEGIN: Content-->
     <div class="app-content content">
