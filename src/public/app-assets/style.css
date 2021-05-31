@@ -1,0 +1,192 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.nav.nav-pills .nav-item {
+  margin-bottom: 5px;
+}
+.nav.nav-pills .nav-item .nav-link {
+    background-color: whitesmoke;
+}
+.nav-pills .nav-link i {
+    color: #1174b7;
+}
+.nav-pills .nav-link.active i {
+  color: #fff;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1174B7 !important;
+}
+.steps-body {
+    border-left: 1px solid #ddd;
+    /* padding: 0px 5px; */
+}
+.steps-left {
+    padding: 4px 0px;
+}
+.steps-leftbar li h4 {
+  display: block;
+  margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.steps-leftbar li p {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 0px;
+    font-weight: 300;
+}
+.nav-pills .nav-link.active h4, .nav-pills .nav-link.active p {
+  color: #fff;
+}
+.calculator-form .select2-selection--single, .steps-body .select2-selection--single {
+    border-radius: 1.5rem;
+    border: 1px solid #d9d9d9;
+}
+.calculator-form .custom-switch {
+  padding-top: 25px;
+}
+.calculator-form .custom-switch.switch-lg .custom-control-label::before {
+    background-color: #1174b7;
+    color: #fff;
+}
+.steps-body label {
+    font-weight: 700;
+}
+.calculator-label {
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    font-size: 22px;
+    padding: 10px 0px;
+    font-weight: 400 !important;
+}
+
+.radio-label {
+  padding-bottom: 7px;
+}
+.btn-primary {
+    border-color: #1174b7 !important;
+    background-color: #1174b7 !important;
+    color: #fff;
+}
+.vs-radio-con input:checked ~ .vs-radio .vs-radio--circle {
+    background: linear-gradient(30deg, #28c76f, rgba(40, 199, 111, 0.5));
+}
+.steps-body .form-control-position {
+    top: 22px;
+}
+.steps-body .table thead th {
+    background: #1174b7;
+    color: #fff;
+}
+.steps-body .documents-upload {
+  background: whitesmoke;
+  padding: 40px 0px !important;
+  border-radius: 10px;
+}
+.steps-body .documents-upload .custom-file-label::after {
+    background-color: #1174b7;
+    color: #fff;
+}
+.login-btn {
+  font-size: 16px;
+  padding: 24px 15px !important;
+  border-left: 1px solid #e1e0e0;
+  margin-left: 13px;
+}
+.tumbler__wrapper{
+  margin-left: auto;
+  width: 50px;
+  height: 30px;
+  background-color: black;
+  border: darken(#aae2f1, 40);
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+}
+svg{
+    width: 15px;
+    height: 15px;
+}
+
+.tumbler{
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: margin-left .5s, background-color .5s;
+}
+.tumbler--night-mode{
+  margin-left: calc(100% - 30px);
+}
+svg{
+  width:auto;
+  height:65px;
+  visibility:hidden;
+}
+
+
+.hit{
+ cursor:pointer;
+ -webkit-tap-highlight-color:transparent;
+}
+.dark-layout .steps-body .documents-upload {
+    background: #10163a;
+}
+@import url(https://fonts.googleapis.com/css?family=Dosis:700);
+
+.weight_value {
+  font-family: "Dosis", Helvetica, Arial, sans-serif;
+  border-bottom: 4px dashed #bdc3c7;
+  text-align: center;
+  font-weight: bold;
+  font-size: 10em;
+  width: 300px;
+  height: 100px;
+  line-height: 60px;
+  margin: 40px auto;
+  letter-spacing: -.07em;
+  text-shadow: white 2px 2px 2px;
+}
+.weight_range {
+  display: block;
+  -webkit-appearance: none;
+  background-color: #bdc3c7;
+  width: 700px;
+  height: 5px;
+  border-radius: 5px;
+  margin: 0 auto;
+  outline: 0;
+}
+.weight_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #28c76f;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+}​
+  .weight_range::-webkit-slider-thumb:hover {
+    background-color: white;
+    border: 2px solid #e74c3c;
+  }
+  .weight_range::-webkit-slider-thumb:active {
+    transform: scale(1.6);
+  }

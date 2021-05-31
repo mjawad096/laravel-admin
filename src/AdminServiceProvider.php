@@ -62,5 +62,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config.php' => config_path('laravel-admin.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/public' => public_path(),
+        ], 'public');
     }
 }
