@@ -11,7 +11,7 @@
     
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>
-        @yield('title', 'Dashboard') | {{ config('app.name') }}
+        @yield('title', 'Dashboard') | {{ config('laravel-admin.app_name', config('app.name')) }}
     </title>
     
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
@@ -39,7 +39,10 @@
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" href="{{ asset('app-assets/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    @foreach(config('laravel-admin.stylesheets', []) as $stylesheet)
+        <link rel="stylesheet" href="{{ asset($stylesheet) }}">
+    @endforeach
     <!-- END: Custom CSS-->
     
     @livewireStyles
@@ -53,7 +56,7 @@
     @yield('main')
 
 
-    <form method="POST" data-form-logout action="{{ route('logout') }}">
+    <form method="POST" data-form-logout action="{{ route(config('laravel-admin.routes.user.logout', 'logout')) }}">
         @csrf
     </form>
 
@@ -82,7 +85,9 @@
     @stack('page_js')
     <!-- END: Page JS-->
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    @foreach(config('laravel-admin.scripts', []) as $script)
+        <script src="{{ asset($script) }}" defer></script>
+    @endforeach
 
     @auth()
         <script>
