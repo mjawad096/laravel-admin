@@ -65,12 +65,21 @@ class AdminServiceProvider extends ServiceProvider
 
     public function publishFiles()
     {
-        $this->publishes([
-            __DIR__.'/config.php' => config_path('laravel-admin.php'),
-        ], 'config');
+        $config_files = [ __DIR__.'/config.php' => config_path('laravel-admin.php'), ];
+        $public_assets = [  __DIR__.'/public' => public_path(), ];
+        $views = [
+            __DIR__.'/resources/views/inc/sidebar.blade.php' => resource_path('views/vendor/laravel-admin/inc/sidebar.blade.php'),
+        ];
 
-        $this->publishes([
-            __DIR__.'/public' => public_path(),
-        ], 'public');
+        $this->publishes($config_files, 'config');
+        $this->publishes($public_assets, 'public');
+        $this->publishes($views, 'views');
+
+        $minimum = array_merge(            
+            $config_files,
+            $public_assets,
+            $views,
+        );
+        $this->publishes($minimum, 'minimum');
     }
 }

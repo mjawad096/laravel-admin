@@ -20,7 +20,7 @@
                         </a>
                     </li>
                     
-                    @include('laravel-admin::header.user-menu')
+                    @include('laravel-admin::inc.user-menu')
                 </ul>
             </div>
         </div>
