@@ -8,6 +8,12 @@ use Livewire;
 
 class AdminServiceProvider extends ServiceProvider
 {
+
+    protected $commands = [
+        App\Console\Commands\Install::class,
+        App\Console\Commands\PublishView::class,
+    ];
+
     public $routeFilePath = '/routes/laravel-admin.php';
 
     /**
