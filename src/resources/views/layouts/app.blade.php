@@ -29,8 +29,8 @@
 @endpush
 
 @section('main')
-    @include('laravel-admin::layouts.header')
-    @include('laravel-admin::layouts.sidebar', ['menu_active' => $menu_active ?? 'dashboard'])
+    @include('laravel-admin::inc.header')
+    @include('laravel-admin::inc.sidebar', ['menu_active' => $menu_active ?? 'dashboard'])
 
     <!-- BEGIN: Content-->
     <div class="app-content content">
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    @include('laravel-admin::layouts.footer')
+    @include('laravel-admin::inc.footer')
 @endsection
 
 @push('js')
