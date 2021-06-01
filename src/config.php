@@ -25,7 +25,13 @@ return [
 			'edit' => ''
 		],
 		'user' => [
+			'login' => 'laravel-admin.login',
 			'logout' => 'logout',
 		],
+	],
+
+	'router' => [
+		'middleware_web' => 'web',
+		'prefix' => 'admin',
 	],
 ];
