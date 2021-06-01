@@ -70,7 +70,8 @@ class AdminServiceProvider extends ServiceProvider
         $config_files = [ __DIR__.'/config.php' => config_path('laravel-admin.php'), ];
         $public_assets = [  __DIR__.'/public' => public_path(), ];
         $views = [
-            __DIR__.'/resources/views/inc/sidebar.blade.php' => resource_path('views/vendor/laravel-admin/inc/sidebar.blade.php'),
+            __DIR__.'/resources/views/inc/sidebar-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/sidebar-menu.blade.php'),
+            __DIR__.'/resources/views/inc/user-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/user-menu.blade.php'),
         ];
 
         $this->publishes($config_files, 'config');
