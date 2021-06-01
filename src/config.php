@@ -1,10 +1,10 @@
 <?php 
 
 return [
-	'dashboard_url' => '/',
+	'dashboard_url' => '/admin',
 
 	'footer' => [
-		'show_copyright' => true,
+		'show_copyright' => false,
 		'copyright_text' => 'COPYRIGHT &copy; '. date('Y') .' <a class="text-bold-800 grey darken-2" href="" target="_blank">Topdot,</a> All rights Reserved'
 	],
 	
@@ -21,10 +21,10 @@ return [
 	],
 
 	'routes' => [
-		'dashboard' => '',
+		'dashboard' => 'laravel-admin.dashboard',
 
 		'profile' => [
-			'edit' => ''
+			'edit' => 'laravel-admin.profile.edit'
 		],
 		'user' => [
 			'login' => 'laravel-admin.login',

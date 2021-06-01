@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'namespace'  => 'App\Http\Controllers',
+    'namespace'  => 'App\Http\Controllers\Admin',
     'middleware' => [config('laravel-admin.router.middleware_web', 'web'), 'auth'],
     'prefix'     => config('laravel-admin.router.prefix', 'admin'),
     'as'     => 'laravel-admin.',
