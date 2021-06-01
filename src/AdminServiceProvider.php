@@ -14,7 +14,8 @@ class AdminServiceProvider extends ServiceProvider
         App\Console\Commands\PublishView::class,
     ];
 
-    public $routeFilePath = '/routes/laravel-admin.php';
+    public $routeFilePath = '/routes/laravel-admin/main.php';
+    public $customRouteFilePath = '/routes/laravel-admin/custom.php';
 
     /**
      * Register services.
@@ -55,20 +56,25 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function setupRoutes(Router $router)
     {
-        // by default, use the routes file provided in vendor
-        $routeFilePathInUse = __DIR__.$this->routeFilePath;
-
         if (file_exists(base_path().$this->routeFilePath)) {
-            $routeFilePathInUse = base_path().$this->routeFilePath;
+            $this->loadRoutesFrom(base_path().$this->routeFilePath);
+        }else{
+            $this->loadRoutesFrom(__DIR__.$this->routeFilePath);
         }
 
-        $this->loadRoutesFrom($routeFilePathInUse);
+        if (file_exists(base_path().$this->customRouteFilePath)) {
+            $this->loadRoutesFrom(base_path().$this->customRouteFilePath);
+        }else{
+            $this->loadRoutesFrom(__DIR__.$this->customRouteFilePath);
+        }
+
     }
 
     public function publishFiles()
     {
         $config_files = [ __DIR__.'/config.php' => config_path('laravel-admin.php'), ];
         $public_assets = [  __DIR__.'/public' => public_path(), ];
+        $routes = [  __DIR__.$this->customRouteFilePath => base_path($this->customRouteFilePath), ];
         $views = [
             __DIR__.'/resources/views/inc/sidebar-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/sidebar-menu.blade.php'),
             __DIR__.'/resources/views/inc/user-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/user-menu.blade.php'),
@@ -77,11 +83,13 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes($config_files, 'config');
         $this->publishes($public_assets, 'public');
         $this->publishes($views, 'views');
+        $this->publishes($routes, 'routes');
 
         $minimum = array_merge(            
             $config_files,
             $public_assets,
             $views,
+            $routes,
         );
         $this->publishes($minimum, 'minimum');
     }
