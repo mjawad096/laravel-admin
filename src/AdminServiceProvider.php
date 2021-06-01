@@ -26,6 +26,9 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // register the helper functions
+        $this->loadHelpers();
+
         // register the artisan commands
         $this->commands($this->commands);
     }
@@ -48,6 +51,14 @@ class AdminServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishFiles();            
         }
+    }
+
+    /**
+     * Load the helper methods, for convenience.
+     */
+    public function loadHelpers()
+    {
+        require_once __DIR__.'/helpers.php';
     }
 
     public function registerMiddlewareGroup(Router $router)
