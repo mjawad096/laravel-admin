@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-Route::prefix('admin')->name('laravel-admin.')->namespace('Topdot\Admin\App\Http\Controllers')->group(function(){
+Route::group([
+    'namespace'  => 'Topdot\Admin\App\Http\Controllers',
+    'middleware' => config('laravel-admin.router.middleware_web', 'web'),
+    'prefix'     => config('laravel-admin.router.prefix', 'admin'),
+    'as'     => 'laravel-admin.',
+], function(){
 	Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('login', 'Auth\LoginController@login')->name('do_login');
 	Route::post('logout', 'Auth\LoginController@logout')->name('logout');

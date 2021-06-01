@@ -5,6 +5,7 @@ namespace Topdot\Admin;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Livewire;
+use Blade;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -35,13 +36,30 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Blade::componentNamespace('Topdot\\Admin\\Views\\Components', 'laravel-admin');
         $this->loadViewsFrom(realpath(__DIR__.'/resources/views/'), 'laravel-admin');
+
         $this->mergeConfigFrom(__DIR__.'/config.php', 'laravel-admin');
 
+        $this->registerMiddlewareGroup($this->app->router);
         $this->setupRoutes($this->app->router);
 
         if ($this->app->runningInConsole()) {
             $this->publishFiles();            
+        }
+    }
+
+    public function registerMiddlewareGroup(Router $router)
+    {
+        $middleware_key = config('laravel-admin.router.middleware_key', 'laravel-admin');
+        $middleware_class = config('laravel-admin.router.middleware_class', []);
+
+        if (! is_array($middleware_class)) {
+            $middleware_class = [$middleware_class];
+        }
+
+        foreach ($middleware_class as $class) {
+            $router->pushMiddlewareToGroup($middleware_key, $class);
         }
     }
 

@@ -33,7 +33,7 @@ class Install extends Command
 	 */
 	public function handle()
 	{
-		$this->progressBar = $this->output->createProgressBar(5);
+		$this->progressBar = $this->output->createProgressBar(4);
 		$this->progressBar->minSecondsBetweenRedraws(0);
 		$this->progressBar->maxSecondsBetweenRedraws(120);
 		$this->progressBar->setRedrawFrequency(1);
@@ -49,13 +49,34 @@ class Install extends Command
 			'--tag' => 'minimum',
 		]);
 
-		// $this->line(" Creating users table (using Laravel's default migration)");
-		// $this->executeArtisanProcess('migrate');
+		$this->line(' Publishing migrations for dependencies');
+		foreach (glob(database_path('migrations/*.php')) as $migration) include_once $migration;
+		
+		if(!class_exists('CreateMediaTable')){
+			$this->executeArtisanProcess('vendor:publish', [
+				'--provider' => 'Topdot\Media\MediaServiceProvider',
+				'--tag' => 'migrations',
+			]);
+		}
+
+		if(!class_exists('CreateMediaTable')){
+			$this->executeArtisanProcess('vendor:publish', [
+				'--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+				'--tag' => 'migrations',
+			]);			
+		}
+
+		$this->line(" Creating users table (using Laravel's default migration)");
+		try{
+			$this->executeArtisanProcess('migrate');
+		}catch(\Throwable $ex){
+			$this->error(' ' . $ex->getMessage());
+		}
 
 		// $this->line(" Creating App\Http\Middleware\CheckIfAdmin.php");
 		// $this->executeArtisanProcess('backpack:publish-middleware');
 
-		// $this->progressBar->finish();
-		// $this->info(' Admin installation finished.');
+		$this->progressBar->finish();
+		$this->info(' Admin installation finished.');
 	}
 }
