@@ -22,13 +22,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -46,5 +39,14 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('laravel-admin::auth.login');
+    }
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @return string
+     */
+    public function redirectTo(){
+        return config('laravel-admin.routes.dashboard', config('laravel-admin.dashboard_url', '/'));
     }
 }

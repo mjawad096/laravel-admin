@@ -21,12 +21,14 @@ return [
 	],
 
 	'routes' => [
+		'dashboard' => '',
+
 		'profile' => [
 			'edit' => ''
 		],
 		'user' => [
 			'login' => 'laravel-admin.login',
-			'logout' => 'logout',
+			'logout' => 'laravel-admin.logout',
 		],
 	],
 
