@@ -35,4 +35,4 @@
     </section>
 @endsection
 
-@include('laravel-admin::layouts.datatables-config')
+@include('laravel-admin::inc.datatables-config')
