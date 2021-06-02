@@ -2,6 +2,7 @@
 
 namespace Topdot\Admin;
 
+// use Topdot\Admin\App\Http\Middleware\Authenticate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Livewire;
@@ -40,7 +41,6 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Blade::componentNamespace('Topdot\\Admin\\Views\\Components', 'laravel-admin');
         $this->loadViewsFrom(realpath(__DIR__.'/resources/views/'), 'laravel-admin');
 
         $this->mergeConfigFrom(__DIR__.'/config.php', 'laravel-admin');
@@ -73,6 +73,8 @@ class AdminServiceProvider extends ServiceProvider
         foreach ($middleware_class as $class) {
             $router->pushMiddlewareToGroup($middleware_key, $class);
         }
+
+        // $router->aliasMiddleware('auth', Authenticate::class);
     }
 
 
