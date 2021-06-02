@@ -6,7 +6,7 @@
         "php": "^7.3|^8.0",
         "illuminate/support": "^8.0",
         "jawad-topdot/laravel-media": "^1",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.3",
         "yajra/laravel-datatables-oracle": "^9.18"
     },
     "license": "MIT",
