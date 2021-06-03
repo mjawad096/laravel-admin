@@ -9,7 +9,9 @@ use Topdot\Admin\App\Http\Controllers\CrudController;
 
 class DummyClassController extends CrudController
 {
-    protected $view_base = 'admin.dummy-table';
+    // protected $page_title = 'DummyClass';
+    // protected $menu_active = 'DummyTable';
+    // protected $view_base = 'admin.dummy-table';
     protected $route_base = 'laravel-admin.dummy-table';
     protected $entery = 'DummyClass';
     protected $model = DummyClass::class;
