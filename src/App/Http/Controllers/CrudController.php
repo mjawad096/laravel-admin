@@ -10,11 +10,17 @@ use Topdot\Media\App\Models\TempMedia;
 
 class CrudController extends Controller
 {
-	protected $view_base;
+	protected $view_base = 'laravel-admin::crud';
 	protected $route_base;
+
 	protected $entery;
+	protected $menu_active;
+	protected $page_title;
+	protected $breadcrumbs = [];
+
 	protected $model;
 	protected $request;
+
 	protected $table_columns = [];
 	protected $raw_columns = [];
 	protected $form_fields = [];
@@ -93,7 +99,7 @@ class CrudController extends Controller
 		$table_columns = method_exists($this, 'table_columns') ? $this->table_columns() : ($this->table_columns ?? []);
 
 		foreach ($table_columns as &$column) {
-			if($column['name'] == 'actions' || $column['data'] == 'actions'){
+			if($column['name'] == 'actions' || $column['data'] == 'actions' || ($column['type'] ?? 'text') == 'image'){
 				$column['searchable'] = false;
 			}
 		}
@@ -101,23 +107,69 @@ class CrudController extends Controller
 		return $table_columns;
 	}
 
+	protected function getBreadcrumbs($item, $options = []){
+		extract($options);
+
+		if(method_exists($this, 'breadcrumbs')){
+			return $this->breadcrumbs($item, $options);
+		}
+
+		if(!empty($this->breadcrumbs) && is_array($this->breadcrumbs)){
+			return $this->breadcrumbs;
+		}
+
+
+		$breadcrumbs = [
+			(string)$entery_plural => route("{$this->route_base}.index"),
+		];
+
+		if($type == 'form'){
+			$breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
+		}
+
+		return $breadcrumbs;
+	}
+
 	protected function view_data($extra = [])
 	{
 		$item = $extra['item'] ?? null;
+		$type = $extra['type'] ?? 'form';
+
+		$editing_form = $extra['editing_form'] ?? false;
+
 		$entery =  Str::of($this->entery);
+		$entery_plural = $entery->plural();
+
 		$data = [
 			'view_base' => $this->view_base,
 			'route_base' => $this->route_base,
+
 			'entery' => $entery,
-			'entery_plural' => $entery->plural(),
+			'entery_plural' => $entery_plural,
+
 			'model' => $this->model,
 			'request' => $this->request,
-			'table_columns' => $this->getTableColumns($item),
-			'raw_columns' => $this->raw_columns,
-			'form_fields' => $this->getFormFields($item),
+
+			'menu_active' => $this->menu_active ?? $entery_plural->snake(),
+			'page_title' => $this->page_title ?? $entery,
+			'breadcrumbs' => $this->getBreadcrumbs($item, compact('type', 'editing_form', 'entery', 'entery_plural')),
+
+			'type' => $type,
 		];
 
-		return array_merge($data, $extra ?? []);
+		if($type == 'form'){
+			$specific_data = [
+				'editing_form' => $editing_form,
+				'form_fields' => $this->getFormFields($item),
+			];
+		}else{
+			$specific_data = [
+				'table_columns' => $this->getTableColumns($item),
+				'raw_columns' => $this->raw_columns,
+			];
+		}
+
+		return array_merge($data, $specific_data, $extra ?? []);
 	}
 
 
@@ -132,7 +184,7 @@ class CrudController extends Controller
 	        return $this->datatables();
 	    }
 
-	    return view("{$this->view_base}.list", $this->view_data());
+	    return view("{$this->view_base}.list", $this->view_data(['type' => 'listing']));
 	}
 
 
@@ -154,7 +206,7 @@ class CrudController extends Controller
 	 */
 	public function create()
 	{
-	    return view("{$this->view_base}.form", $this->view_data(['editing_form' => false]));
+	    return view("{$this->view_base}.form", $this->view_data());
 	}
 
 	/**
