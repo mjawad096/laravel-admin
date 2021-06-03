@@ -1,0 +1,27 @@
+<?php
+
+namespace DummyNamespace;
+
+
+use App\Models\DummyClass;
+use Illuminate\Http\Request;
+use App\Http\Requests\Admin\DummyClassRequest;
+use Topdot\Admin\App\Http\Controllers\CrudController;
+
+class DummyClassController extends CrudController
+{
+    protected $view_base = 'admin.DummyTable';
+    protected $route_base = 'laravel-admin.DummyTable';
+    protected $entery = 'DummyClass';
+    protected $model = DummyClass::class;
+    protected $request = DummyClassRequest::class;
+    protected $table_columns = [];
+
+    public function form_fields($item = null){
+        return [];
+    }
+
+    public function data(Request $request){
+        return [];
+    }
+}

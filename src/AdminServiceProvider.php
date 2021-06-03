@@ -15,6 +15,8 @@ class AdminServiceProvider extends ServiceProvider
         App\Console\Commands\Install::class,
         App\Console\Commands\PublishView::class,
         App\Console\Commands\CreateDefaultAdminUser::class,
+        App\Console\Commands\MakeControllerCommand::class,
+        App\Console\Commands\MakeCommand::class,
     ];
 
     public $routeFilePath = '/routes/laravel-admin/main.php';
