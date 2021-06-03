@@ -53,7 +53,7 @@ function strip_tags_and_html_entries($text){
 }
 
 function truncate_text($text, $length = 100, $end = '...'){
-    return \Str::limit(strip_tags_and_html_entries($text), $length, $end);
+    return Str::limit(strip_tags_and_html_entries($text), $length, $end);
 }
 
 function render_table_cell_image($url){
