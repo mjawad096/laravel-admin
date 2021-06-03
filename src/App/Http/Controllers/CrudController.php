@@ -46,6 +46,10 @@ class CrudController extends Controller
     	return implode(' ', $actions);
     }
 
+    public function editImageColumn($item, $name = 'image'){
+    	return render_table_cell_image($item->getImageUrl($name));
+    }
+
 	protected function datatables($raw_columns = [])
 	{
 		$raw_columns = array_unique(array_merge($raw_columns, $this->raw_columns ?? [], ['actions']));
@@ -54,15 +58,19 @@ class CrudController extends Controller
 
         foreach ($this->table_columns as $column) {
         	$name = $column['name'] ?? $column['data'];
-        	$name = Str::studly($name);
-        	$name = "edit{$name}Column";
+        	$methodName = Str::studly($name);
+        	$methodName = "edit{$methodName}Column";
 
-        	if(method_exists($this, $name)){
-        		$data->editColumn($column['name'], [$this, $name]);
+        	if(method_exists($this, $methodName)){
+        		$data->editColumn($name, [$this, $methodName]);
+        	}
+
+        	if($column['raw'] ?? false){
+        		$raw_columns[] = $name;
         	}
         }
 
-        return $data->rawColumns($raw_columns)->make(true);
+        return $data->rawColumns(array_unique($raw_columns))->make(true);
 	}
 
 	protected function getFormFields($item){

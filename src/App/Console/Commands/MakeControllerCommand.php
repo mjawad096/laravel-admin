@@ -85,6 +85,7 @@ class MakeControllerCommand extends GeneratorCommand
         $table = Str::plural(ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', str_replace($this->getNamespace($name).'\\', '', $name))), '_'));
 
         $stub = str_replace('DummyTable', $table, $stub);
+        $stub = str_replace('dummy-table', str_replace('_', '-', $table), $stub);
         $stub = str_replace('dummy_class', strtolower(str_replace($this->getNamespace($name).'\\', '', $name)), $stub);
 
         return $this;

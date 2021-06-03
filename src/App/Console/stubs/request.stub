@@ -16,7 +16,7 @@ class DummyClassRequest extends BaseRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            // 'name' => 'bail|required',
         ];
     }
 
