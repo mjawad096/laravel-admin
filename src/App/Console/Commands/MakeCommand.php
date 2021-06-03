@@ -30,13 +30,13 @@ class MakeCommand extends Command
     {
         $name = ucfirst($this->argument('name'));
 
-        // Create the Model and show output
-        $this->call('make:model', ['name' => $name, '--migration' => true]);
+        // Create the CRUD Controller and show output
+        $this->call('laravel-admin:make:controller', ['name' => $name]);
 
         // Create the Request and show output
         $this->call('laravel-admin:make:request', ['name' => $name]);
 
-        // Create the CRUD Controller and show output
-        $this->call('laravel-admin:make:controller', ['name' => $name]);
+        // Create the Model and show output
+        $this->call('make:model', ['name' => $name, '--migration' => true]);
     }
 }
