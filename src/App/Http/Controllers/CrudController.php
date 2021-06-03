@@ -46,13 +46,13 @@ class CrudController extends Controller
     	return implode(' ', $actions);
     }
 
-    public function editImageColumn($item, $name = 'image'){
+    public function imageColumn($item, $name = 'image'){
     	return render_table_cell_image($item->getImageUrl($name));
     }
 
 	protected function datatables($raw_columns = [])
 	{
-		$raw_columns = array_unique(array_merge($raw_columns, $this->raw_columns ?? [], ['actions']));
+		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
 
 		$data = datatables()->of($this->model::query());
 
@@ -63,11 +63,23 @@ class CrudController extends Controller
 
         	if(method_exists($this, $methodName)){
         		$data->editColumn($name, [$this, $methodName]);
+        	}else if(($column['type'] ?? 'text') == 'image'){
+    			$raw_columns[] = $name;
+    			$data->editColumn($name, function($item) use ($name){
+    				return $this->imageColumn($item, $name);
+    			});
+        	}else{
+        		if(!empty($limit = ($column['character_limit'] ?? null)) && is_numeric($limit)){
+        			$data->editColumn($name, function($item) use ($name, $limit){
+	    				return truncate_text($item->{$name}, $limit);
+	    			});
+        		}
         	}
 
         	if($column['raw'] ?? false){
         		$raw_columns[] = $name;
         	}
+        	$raw_columns[] = 'actions';
         }
 
         return $data->rawColumns(array_unique($raw_columns))->make(true);
