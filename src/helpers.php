@@ -56,32 +56,12 @@ function truncate_text($text, $length = 100, $end = '...'){
     return \Str::limit(strip_tags_and_html_entries($text), $length, $end);
 }
 
-function share_link($media, $url = null, $options = []){
-	if(empty($url)){
-		$url = url()->full();
-	}
+function render_table_cell_image($url){
+    if(empty($url)) return '';
 
-	$url = urlencode($url);
-
-	$options['url'] = $url;
-
-	$socialSharer = [
-		'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url=:url',
-		'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=:url',
-		'twitter' => 'https://twitter.com/intent/tweet?url=:url&text=:text',
-	];
-
-	$sharer = $socialSharer[$media] ?? null;
-
-	if(empty($sharer)) return null;
-
-	$finder = [];
-	$replacer = [];
-
-	foreach ($options as $key => $value) {
-		$finder[] = ":{$key}";
-		$replacer[] = $value;
-	}
-
-	return str_replace($finder, $replacer, $sharer);
+    return "
+        <a href=\"{$url}\" target=\"_blank\">
+            <img width=\"50px\" height=\"50px\" src=\"{$url}\">
+        </a>
+    ";
 }
