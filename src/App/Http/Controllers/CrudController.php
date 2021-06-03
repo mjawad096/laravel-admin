@@ -207,9 +207,21 @@ class CrudController extends Controller
 	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true){
 	    // dd($this->data($request));
 
+		if(method_exists($this, 'beforeFill')){
+			$this->beforeFill($item);
+		}
+
 	    $item->fill($this->data($request));
 
+	    if(method_exists($this, 'afterFill')){
+			$this->afterFill($item);
+		}
+
 	    if($save){
+		    if(method_exists($this, 'beforeSave')){
+				$this->beforeSave($item);
+			}
+
 	        $saved = $item->save();
 
 	        foreach ($this->getFormFields($item) as $field) {
@@ -226,6 +238,10 @@ class CrudController extends Controller
 	        		$this->setFilesField($item, $name);
 	        	}
 	        }
+
+			if(method_exists($this, 'afterSave')){
+				$this->afterSave($item);
+			}
 
 	        if($redirect){
 	            $route = $item->wasRecentlyCreated  ? 'index' : 'edit';
