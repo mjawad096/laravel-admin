@@ -60,35 +60,47 @@ class CrudController extends Controller
 	{
 		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
 
-		$data = datatables()->of($this->model::query());
+		$datatable = datatables()->of($this->model::query());
 
         foreach ($this->table_columns as $column) {
+        	$type = $column['type'] ?? 'text';
+
         	$name = $column['name'] ?? $column['data'];
         	$methodName = Str::studly($name);
         	$methodName = "edit{$methodName}Column";
 
         	if(method_exists($this, $methodName)){
-        		$data->editColumn($name, [$this, $methodName]);
-        	}else if(($column['type'] ?? 'text') == 'image'){
-    			$raw_columns[] = $name;
-    			$data->editColumn($name, function($item) use ($name){
-    				return $this->imageColumn($item, $name);
-    			});
+        		$methodName = $methodName;
+        	}else if($type == 'image'){
+        		$methodName = 'imageColumn';
+        		$column['raw'] = true;
         	}else{
-        		if(!empty($limit = ($column['character_limit'] ?? null)) && is_numeric($limit)){
-        			$data->editColumn($name, function($item) use ($name, $limit){
-	    				return truncate_text($item->{$name}, $limit);
-	    			});
-        		}
+        		$methodName = null;
         	}
+
+        	$datatable->editColumn($name, function($item) use ($name, $column, $methodName){
+	        	if($methodName){
+	        		$value = $this->{$methodName}($item, $name, $column);
+	        	}else{
+	        		$value = $item->{$name};
+
+	        		if(!empty($limit = ($column['character_limit'] ?? null)) && is_numeric($limit)){
+	        			$value = truncate_text($value, $limit);
+	        		}
+	        	}
+
+	        	return $value;
+        	});
 
         	if($column['raw'] ?? false){
         		$raw_columns[] = $name;
         	}
-        	$raw_columns[] = 'actions';
         }
+        $raw_columns[] = 'actions';
 
-        return $data->rawColumns(array_unique($raw_columns))->make(true);
+        $datatable->rawColumns(array_unique($raw_columns));
+
+        return $datatable->toJson();
 	}
 
 	protected function getFormFields($item){
