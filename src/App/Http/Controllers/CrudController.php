@@ -114,20 +114,21 @@ class CrudController extends Controller
 			return $this->breadcrumbs($item, $options);
 		}
 
+		$baseBreadcrumbs = method_exists($this, 'baseBreadcrumbs') ? $this->baseBreadcrumbs() : ($this->baseBreadcrumbs ?? []);
+
 		if(!empty($this->breadcrumbs) && is_array($this->breadcrumbs)){
-			return $this->breadcrumbs;
+			$breadcrumbs = $this->breadcrumbs;
+		}else{
+			$breadcrumbs = [
+				(string)$entery_plural => route("{$this->route_base}.index"),
+			];
+
+			if($type == 'form'){
+				$breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
+			}
 		}
 
-
-		$breadcrumbs = [
-			(string)$entery_plural => route("{$this->route_base}.index"),
-		];
-
-		if($type == 'form'){
-			$breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
-		}
-
-		return $breadcrumbs;
+		return array_merge($baseBreadcrumbs, $breadcrumbs);
 	}
 
 	protected function view_data($extra = [])
