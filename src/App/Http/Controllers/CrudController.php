@@ -294,7 +294,9 @@ class CrudController extends Controller
 			$this->beforeFill($item);
 		}
 
-	    $item->fill($this->data($request));
+		$dataMethod = method_exists($this, 'data') ? 'data' : 'dataFromFields';
+
+	    $item->fill($this->{$dataMethod}($request, $item));
 
 	    if(method_exists($this, 'afterFill')){
 			$this->afterFill($item);
@@ -336,5 +338,28 @@ class CrudController extends Controller
 	    }
 
 	    return true;
+	}
+
+
+	protected function dataFromFields(Request $request, $item){
+		$fields = $this->getFormFields($item);
+
+		$data = [];
+
+		foreach ($fields as $key => $field) {
+			$name = $field['name'];
+			$type = $field['type'] ?? 'text';
+
+			if($type != 'image'){
+				$data[$name] = $request->{$name};
+
+				if($type == 'status'){
+					$data[$name] = !!$data[$name];
+				}
+			}
+
+		}
+
+		return $data;
 	}
 }
