@@ -122,13 +122,11 @@ class CrudController extends Controller
 	protected function getBreadcrumbs($item, $options = []){
 		extract($options);
 
-		if(method_exists($this, 'breadcrumbs')){
-			return $this->breadcrumbs($item, $options);
-		}
-
 		$baseBreadcrumbs = method_exists($this, 'baseBreadcrumbs') ? $this->baseBreadcrumbs($item, $options) : ($this->baseBreadcrumbs ?? []);
 
-		if(!empty($this->breadcrumbs) && is_array($this->breadcrumbs)){
+		if(method_exists($this, 'breadcrumbs')){
+			$breadcrumbs = $this->breadcrumbs($item, $options);
+		}else if(!empty($this->breadcrumbs) && is_array($this->breadcrumbs)){
 			$breadcrumbs = $this->breadcrumbs;
 		}else{
 			$breadcrumbs = [
