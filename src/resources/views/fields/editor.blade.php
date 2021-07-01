@@ -1,7 +1,7 @@
 <div class="form-group {{ $errors->has($name) ? 'error' : '' }}">
     <label for="input-{{ $name }}">{{ $title }}</label>
     <div class="controls">
-        <textarea type="text" id="input-{{ $name }}" class="form-control rich-editor" name="{{ $name }}" placeholder="{{ $title }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
+        <textarea type="text" id="input-{{ $name }}" class="form-control rich-editor{{ $advance ? '-advance' : '' }}" name="{{ $name }}" placeholder="{{ $title }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
         
         @error($name)
             <div class="help-block">
