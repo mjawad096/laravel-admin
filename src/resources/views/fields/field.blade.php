@@ -2,7 +2,7 @@
 	$field['title'] = title_case($field['title'] ?? $field['name']);
 	$field['type'] = $field['type'] ?? 'text';
 	$field['enabled'] = isset($field['enabled']) ? $field['enabled'] : true;
-	$field['advance'] = isset($field['advance']) ? $field['advance'] : true;
+	$field['advance'] = isset($field['advance']) ? $field['advance'] : false;
 	$field['default_value'] = $field['default'] ?? null;
 @endphp
 

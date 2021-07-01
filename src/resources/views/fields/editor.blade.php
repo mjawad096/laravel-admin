@@ -29,7 +29,7 @@
             tinymce.init({
                 selector: '.rich-editor-advance',
                 branding: false,
-                plugins: 'code link image',
+                plugins: 'code link image lists advlist',
                 menubar: false,
                 toolbar: 'undo redo | styleselect | link image | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code',
             });
