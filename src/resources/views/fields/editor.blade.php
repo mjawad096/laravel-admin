@@ -32,6 +32,8 @@
                 plugins: 'code link image lists advlist',
                 menubar: false,
                 toolbar: 'undo redo | styleselect | link image | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code',
+                convert_urls: false,
+                images_upload_url: '/media',
             });
         });
     </script>
