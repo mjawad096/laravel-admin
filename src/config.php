@@ -20,6 +20,12 @@ return [
 		'css/app.css',
 	],
 
+	'pages' => [
+		'login' => [
+			'logo' => '/images/logo.png'
+		]
+	],
+
 	'routes' => [
 		'dashboard' => 'laravel-admin.dashboard',
 
