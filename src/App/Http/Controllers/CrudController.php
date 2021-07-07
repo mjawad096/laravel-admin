@@ -165,7 +165,7 @@ class CrudController extends Controller
 			'entery_plural' => $entery_plural,
 
 			'model' => $this->model,
-			'request' => app($this->request),
+			'request' => $this->request,
 
 			'menu_active' => $this->menu_active ?? $entery_plural->snake(),
 			'page_title' => $this->page_title ?? $entery,
