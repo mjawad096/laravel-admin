@@ -27,7 +27,13 @@ class CrudController extends Controller
 
 	protected function resolveItem($id)
 	{
-		return app($this->model)->resolveRouteBinding($id);
+		$item = app($this->model)->resolveRouteBinding($id);
+
+		request()->merge([
+			'_item' => $item,
+		]);
+
+		return $item;
 	}
 
 	public function editCategoryIdColumn($item)
@@ -159,7 +165,7 @@ class CrudController extends Controller
 			'entery_plural' => $entery_plural,
 
 			'model' => $this->model,
-			'request' => $this->request,
+			'request' => app($this->request),
 
 			'menu_active' => $this->menu_active ?? $entery_plural->snake(),
 			'page_title' => $this->page_title ?? $entery,
