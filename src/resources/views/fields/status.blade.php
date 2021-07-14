@@ -6,6 +6,6 @@
     @endphp
     <select class="form-control" name="status" id="input-status" required>
         <option value="1" {{ $status == 1 ? 'selected' : '' }}>Active</option>
-        <option value="0" {{ $status == 0 ? 'selected' : '' }}>inactive</option>
+        <option value="0" {{ $status == 0 ? 'selected' : '' }}>Inactive</option>
     </select>
 </div>
