@@ -27,8 +27,10 @@
                 ajax: "{{ request()->url() }}",
                 columns: @json($table_columns ?? []),
                 columnDefs: [
-                    { orderable: false, targets: 'no-sort' }
+                    { orderable: false, targets: 'no-sort' },
+                    { visible: false, targets: 'no-show' }
                 ],
+                order: [[ 0, "desc" ]],
             })
         });
     </script>
