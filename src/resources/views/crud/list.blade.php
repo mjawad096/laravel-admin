@@ -20,7 +20,7 @@
                                         <tr>
                                             @foreach($table_columns as $column)
                                                 @php $column['title'] = $column['title'] ?? $column['name'] @endphp
-                                                <th class="{{ ($column['sortable'] ?? $column['name'] !== 'actions' ) ? '' : 'no-sort' }}">{{ title_case($column['title']) }}</th>
+                                                <th class="{{ ($column['hidden'] ?? false) ? 'no-show' : '' }} {{ ($column['sortable'] ?? $column['name'] !== 'actions' ) ? '' : 'no-sort' }}">{{ title_case($column['title']) }}</th>
                                             @endforeach
                                         </tr>
                                     </thead>
