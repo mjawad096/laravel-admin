@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title w-100 text-right">
-                            <a href="{{ route("{$route_base}.create") }}" class="btn btn-sm btn-success">Add new</a>
+                            <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
                         </h4>
                     </div>
                     <div class="card-content">

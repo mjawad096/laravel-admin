@@ -172,6 +172,10 @@ class CrudController extends Controller
 			'breadcrumbs' => $this->getBreadcrumbs($item, compact('type', 'editing_form', 'entery', 'entery_plural')),
 
 			'type' => $type,
+
+			'links' => (object)[
+				'create' => (object)$this->getCreateLinkData(),
+			],
 		];
 
 		if($type == 'form'){
@@ -188,6 +192,13 @@ class CrudController extends Controller
 
 		return array_merge($data, $specific_data, $extra ?? []);
 	}
+
+	protected function getCreateLinkData(){
+		return [
+			'text' => 'Add new',
+			'link' => route("{$this->route_base}.create"),
+		];
+	},
 
 
 	/**
