@@ -198,7 +198,7 @@ class CrudController extends Controller
 			'text' => 'Add new',
 			'link' => route("{$this->route_base}.create"),
 		];
-	},
+	}
 
 
 	/**
