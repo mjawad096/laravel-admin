@@ -21,7 +21,7 @@
 @push('js')
     <script>
         jQuery(document).ready(function ($) {
-            $('.jd-datatable').DataTable({
+            let $jdDataTable = $('.jd-datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ request()->url() }}",
@@ -31,7 +31,11 @@
                     { visible: false, targets: 'no-show' }
                 ],
                 order: [[ 0, "desc" ]],
-            })
+            });
+
+            if(window.afterJdDataTableInit && typeof window.afterJdDataTableInit === 'function'){
+                window.afterJdDataTableInit($jdDataTable);
+            }
         });
     </script>
 @endpush
