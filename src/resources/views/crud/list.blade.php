@@ -8,7 +8,9 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title w-100 text-right">
-                            <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                            @if($links->create !== null)
+                                <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                            @endif
                         </h4>
                     </div>
                     <div class="card-content">

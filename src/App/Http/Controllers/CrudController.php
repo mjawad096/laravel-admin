@@ -157,6 +157,8 @@ class CrudController extends Controller
 		$entery =  Str::of($this->entery);
 		$entery_plural = $entery->plural();
 
+		$create_link = $this->getCreateLinkData();
+
 		$data = [
 			'view_base' => $this->view_base,
 			'route_base' => $this->route_base,
@@ -174,7 +176,7 @@ class CrudController extends Controller
 			'type' => $type,
 
 			'links' => (object)[
-				'create' => (object)$this->getCreateLinkData(),
+				'create' => $create_link ? (object)$create_link : null,
 			],
 		];
 
