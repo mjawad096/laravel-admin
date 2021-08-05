@@ -180,7 +180,9 @@ class CrudController extends Controller
 			],
 		];
 
-		if($type == 'form'){
+		if($type == 'details'){
+
+		}else if($type == 'form'){
 			$specific_data = [
 				'editing_form' => $editing_form,
 				'form_fields' => $this->getFormFields($item),
@@ -221,12 +223,13 @@ class CrudController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  \App\Models\Category  $category
+	 * @param  string|int  $item
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($item)
 	{
 		$item = $this->resolveItem($item);
+		return view("{$this->view_base}.details", $this->view_data(['item' => $item, 'type' => 'details']));
 	}
 
 	/**
@@ -242,7 +245,7 @@ class CrudController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  \App\Models\Category  $category
+	 * @param   string|int  $item
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($item)
@@ -268,7 +271,7 @@ class CrudController extends Controller
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $item
+	 * @param   string|int  $item
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $item)
@@ -278,11 +281,10 @@ class CrudController extends Controller
 	}
 
 
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\Models\Category  $category
+	 * @param   string|int  $item
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($item)

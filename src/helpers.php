@@ -65,3 +65,11 @@ function render_table_cell_image($url){
         </a>
     ";
 }
+
+function toString($value){
+	if(empty($value)) return '';
+
+	if(is_string($value)) return $value;
+
+	return json_encode($value);
+}
