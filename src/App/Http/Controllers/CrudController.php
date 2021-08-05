@@ -180,6 +180,8 @@ class CrudController extends Controller
 			],
 		];
 
+		$specific_data = [];
+		
 		if($type == 'details'){
 
 		}else if($type == 'form'){
