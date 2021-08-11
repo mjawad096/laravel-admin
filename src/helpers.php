@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 function title_case($value = '')
 {
@@ -70,6 +71,10 @@ function toString($value){
 	if(empty($value)) return '';
 
 	if(is_string($value)) return $value;
+
+	if($value instanceof Carbon){
+		return $value->toDayDateTimeString();
+	}
 
 	return json_encode($value);
 }
