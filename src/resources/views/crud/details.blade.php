@@ -12,7 +12,16 @@
                         <div class="card-body">
                             <table class="table table-striped mb-0">
                                 <tbody>
+                                    @php
+                                        $dates = $item->getDates();   
+                                    @endphp
+
                                     @foreach ($item->toArray() as $key => $value)
+                                        @php
+                                            if(in_array($key, $dates)){
+                                                $value = new \Carbon\Carbon($value);
+                                            }                                            
+                                        @endphp
                                         <tr>
                                             <td><strong>{{ title_case($key) }}</strong></td>
                                             <td>{{ toString($value) }}</td>
