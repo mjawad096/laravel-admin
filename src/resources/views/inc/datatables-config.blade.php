@@ -21,6 +21,15 @@
 @push('js')
     <script>
         jQuery(document).ready(function ($) {
+            let ajax_status = null;
+
+            $.fn.dataTable.ext.errMode = function( settings, techNote, message ){
+                if(ajax_status == 401 || ajax_status == 419){
+                    message = 'Sorry, your session has expired. please refresh and try again'
+                }
+                alert(message)
+            }
+
             let $jdDataTable = $('.jd-datatable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -36,6 +45,10 @@
             if(window.afterJdDataTableInit && typeof window.afterJdDataTableInit === 'function'){
                 window.afterJdDataTableInit($jdDataTable);
             }
+
+            $jdDataTable.on('xhr', function(e, settings, json, xhr){
+                ajax_status = xhr.status
+            });
         });
     </script>
 @endpush
