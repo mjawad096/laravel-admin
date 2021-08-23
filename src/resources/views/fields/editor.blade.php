@@ -1,17 +1,5 @@
-<div class="form-group {{ $errors->has($name) ? 'error' : '' }}">
-    <label for="input-{{ $name }}">{{ $title }}</label>
-    <div class="controls">
-        <textarea type="text" id="input-{{ $name }}" class="form-control rich-editor{{ $advance ? '-advance' : '' }}" name="{{ $name }}" placeholder="{{ $title }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
-        
-        @error($name)
-            <div class="help-block">
-                <ul role="alert">
-                    <li>{{ $message }}</li>
-                </ul>
-            </div>
-        @enderror
-    </div>
-</div>
+<textarea type="text" id="input-{{ $name }}" class="form-control rich-editor{{ $advance ? '-advance' : '' }}" name="{{ $name }}" placeholder="{{ $title }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
+
 
 @pushonce('js')
     <script src="https://cdn.tiny.cloud/1/plvfgap34uuvzkaly2pp6oeweszgvb15ra0q9ff7jqvwrmdv/tinymce/4/tinymce.min.js" referrerpolicy="origin"></script>

@@ -1,46 +1,34 @@
-<div class="form-group {{ $errors->has($name) ? 'error' : '' }}">
-    <label for="input-{{ $name }}">{{ $title }}</label>
-
-    @php
-        $multiple = $multiple ?? false;
-        $selected = old($name) !== null ? old($name) : ($item->{$name} ?? $default_value) ;
-        
-        if($multiple){
-            if(empty($selected)){
-                $selected = [];
-            }
-
-            if(is_array($selected)){
-                $selected = collect($selected);
-            }
-
-            $selected->pluck('id');
+@php
+    $multiple = $multiple ?? false;
+    $selected = old($name) !== null ? old($name) : ($item->{$name} ?? $default_value) ;
+    
+    if($multiple){
+        if(empty($selected)){
+            $selected = [];
         }
-    @endphp
-    <select class="form-control" name="{{ $name }}{{ $multiple ? '[]' : '' }}" id="input-{{ $name }}" {{ $multiple ? 'multiple' : '' }}>
-        @if(!$multiple)
-            <option value="" selected>Select {{ suggest_a_an($title) }} {{ strtolower($title) }}</option>
-        @endif
 
-        @foreach($options as $option)
-        	<option 
-                value="{{ $option['value'] }}"
-                @if($multiple)
-                    {{ $selected->contains($option['value']) ? 'selected' : '' }}
-                @else
-                    {{ $selected == $option['value'] ? 'selected' : '' }}
-                @endif
-            >
-                {{ $option['text'] }}
-            </option>
-        @endforeach
-    </select>
+        if(is_array($selected)){
+            $selected = collect($selected);
+        }
 
-    @error($name)
-        <div class="help-block">
-            <ul role="alert">
-                <li>{{ $message }}</li>
-            </ul>
-        </div>
-    @enderror
-</div>
+        $selected->pluck('id');
+    }
+@endphp
+<select class="form-control" name="{{ $name }}{{ $multiple ? '[]' : '' }}" id="input-{{ $name }}" {{ $multiple ? 'multiple' : '' }}>
+    @if(!$multiple)
+        <option value="" selected>Select {{ suggest_a_an($title) }} {{ strtolower($title) }}</option>
+    @endif
+
+    @foreach($options as $option)
+        <option 
+            value="{{ $option['value'] }}"
+            @if($multiple)
+                {{ $selected->contains($option['value']) ? 'selected' : '' }}
+            @else
+                {{ $selected == $option['value'] ? 'selected' : '' }}
+            @endif
+        >
+            {{ $option['text'] }}
+        </option>
+    @endforeach
+</select>
