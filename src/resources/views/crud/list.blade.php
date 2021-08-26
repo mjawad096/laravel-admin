@@ -9,7 +9,11 @@
                     <div class="card-header">
                         <h4 class="card-title w-100 text-right">
                             @if($links->create !== null)
-                                <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                                @if(!empty($links->create->html))
+                                    {!! $links->create->html !!}
+                                @else
+                                    <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                                @endif
                             @endif
                         </h4>
                     </div>

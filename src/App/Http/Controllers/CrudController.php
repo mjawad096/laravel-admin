@@ -176,7 +176,7 @@ class CrudController extends Controller
 			'type' => $type,
 
 			'links' => (object)[
-				'create' => $create_link ? (object)$create_link : null,
+				'create' => $create_link ? optional((object)$create_link) : null,
 			],
 		];
 
