@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'namespace'  => 'Topdot\Admin\App\Http\Controllers',
+    'namespace'  => 'Dotlogics\Admin\App\Http\Controllers',
     'middleware' => config('laravel-admin.router.middleware_web', 'web'),
     'prefix'     => config('laravel-admin.router.prefix', 'admin'),
     'as'     => 'laravel-admin.',
