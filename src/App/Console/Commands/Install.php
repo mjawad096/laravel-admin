@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Console\Commands;
+namespace Dotlogics\Admin\App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -45,7 +45,7 @@ class Install extends Command
 
 		$this->line(' Publishing configs, views, js and css files');
 		$this->executeArtisanProcess('vendor:publish', [
-			'--provider' => 'Topdot\Admin\AdminServiceProvider',
+			'--provider' => 'Dotlogics\Admin\AdminServiceProvider',
 			'--tag' => 'minimum',
 		]);
 
@@ -54,7 +54,7 @@ class Install extends Command
 		
 		if(!class_exists('CreateMediaTable')){
 			$this->executeArtisanProcess('vendor:publish', [
-				'--provider' => 'Topdot\Media\MediaServiceProvider',
+				'--provider' => 'Dotlogics\Media\MediaServiceProvider',
 				'--tag' => 'migrations',
 			]);
 		}

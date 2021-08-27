@@ -1,12 +1,12 @@
 <?php
 
-namespace Topdot\Admin\App\Http\Controllers;
+namespace Dotlogics\Admin\App\Http\Controllers;
 
 use Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
-use Topdot\Media\App\Models\TempMedia;
+use Dotlogics\Media\App\Models\TempMedia;
 
 class CrudController extends Controller
 {

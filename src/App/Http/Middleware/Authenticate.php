@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Http\Middleware;
+namespace Dotlogics\Admin\App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as BaseMiddleware;
 

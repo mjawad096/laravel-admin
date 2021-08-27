@@ -1,11 +1,11 @@
 {
-    "name": "jawad-topdot/laravel-admin",
+    "name": "jd-dotlogics/laravel-admin",
     "description": "A package for Vuexy Admin in Laravel",
     "type": "library",
     "require": {
         "php": "^7.3|^8.0",
         "illuminate/support": "^8.0",
-        "jawad-topdot/laravel-media": "^1",
+        "jd-dotlogics/laravel-media": "^1",
         "laravel/ui": "^3.3",
         "nesbot/carbon": "*",
         "yajra/laravel-datatables-oracle": "^9.18"
@@ -13,19 +13,19 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Muhammad Jawad",
-            "email": "jawad.topdot@gmail.com"
+            "name": "Dotlogics",
+            "email": "hello@dotlogics.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Topdot\\Admin\\": "src"
+            "Dotlogics\\Admin\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Topdot\\Admin\\AdminServiceProvider"
+                "Dotlogics\\Admin\\AdminServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Console\Commands;
+namespace Dotlogics\Admin\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User;

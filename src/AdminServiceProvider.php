@@ -1,8 +1,8 @@
 <?php
 
-namespace Topdot\Admin;
+namespace Dotlogics\Admin;
 
-// use Topdot\Admin\App\Http\Middleware\Authenticate;
+// use Dotlogics\Admin\App\Http\Middleware\Authenticate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Livewire;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Console\Commands\Traits;
+namespace Dotlogics\Admin\App\Console\Commands\Traits;
 
 use Artisan;
 use Illuminate\Console\Command;
