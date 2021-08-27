@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Console\Commands;
+namespace Dotlogics\Admin\App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -33,7 +33,7 @@ class PublishView extends Command
 	 *
 	 * @var string
 	 */
-	public $sourcePath = 'vendor/jawad-topdot/laravel-admin/src/resources/views/';
+	public $sourcePath = 'vendor/jd-dotlogics/laravel-admin/src/resources/views/';
 
 	/**
 	 * The directory where the views will pe published TO.

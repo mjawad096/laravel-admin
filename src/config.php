@@ -5,7 +5,7 @@ return [
 
 	'footer' => [
 		'show_copyright' => false,
-		'copyright_text' => 'COPYRIGHT &copy; '. date('Y') .' <a class="text-bold-800 grey darken-2" href="" target="_blank">Topdot,</a> All rights Reserved'
+		'copyright_text' => 'COPYRIGHT &copy; '. date('Y') .' <a class="text-bold-800 grey darken-2" href="" target="_blank">Dotlogics,</a> All rights Reserved'
 	],
 	
 	'scripts' => [

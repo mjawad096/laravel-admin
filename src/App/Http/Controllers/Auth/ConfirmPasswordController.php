@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Http\Controllers\Auth;
+namespace Dotlogics\Admin\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;

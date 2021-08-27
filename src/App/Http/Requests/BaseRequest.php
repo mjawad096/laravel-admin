@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Http\Requests;
+namespace Dotlogics\Admin\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

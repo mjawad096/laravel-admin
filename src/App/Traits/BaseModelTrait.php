@@ -1,6 +1,6 @@
 <?php
 
-namespace Topdot\Admin\App\Traits;
+namespace Dotlogics\Admin\App\Traits;
 
 use Str;
 use Storage;
