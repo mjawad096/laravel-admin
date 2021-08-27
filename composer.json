@@ -5,7 +5,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "illuminate/support": "^8.0",
-        "jd-dotlogics/laravel-media": "^1",
+        "jd-dotlogics/laravel-media": "^2",
         "laravel/ui": "^3.3",
         "nesbot/carbon": "*",
         "yajra/laravel-datatables-oracle": "^9.18"
