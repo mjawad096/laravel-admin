@@ -1,5 +1,5 @@
 {
-    "name": "dotlogics/laravel-admin",
+    "name": "jawad-topdot/laravel-admin",
     "description": "A package for Vuexy Admin in Laravel",
     "type": "library",
     "require": {
