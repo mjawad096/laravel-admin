@@ -3,7 +3,7 @@
 namespace DummyNamespace;
 
 use DummyRootNamespaceHttp\Requests\Request;
-use Topdot\Admin\App\Http\Requests\BaseRequest;
+use Dotlogics\Admin\App\Http\Requests\BaseRequest;
 
 class DummyClassRequest extends BaseRequest
 {
