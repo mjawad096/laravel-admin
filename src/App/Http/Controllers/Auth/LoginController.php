@@ -47,6 +47,13 @@ class LoginController extends Controller
      * @return string
      */
     public function redirectTo(){
-        return config('laravel-admin.routes.dashboard', config('laravel-admin.dashboard_url', '/'));
+        $dashboard_url = config('laravel-admin.dashboard_url', '/');
+        $dashboard_route = config('laravel-admin.routes.dashboard');
+
+        if(!empty($dashboard_route)){
+            $dashboard_url = route($dashboard_route);
+        }
+        
+        return $dashboard_url;
     }
 }
