@@ -6,7 +6,7 @@
 	$field['default_value'] = $field['default'] ?? null;
 
 	if($field['type'] == 'status'){
-		$field['title'] = '1Status';
+		$field['title'] = 'Status';
 	}
 
 	extract($field);
