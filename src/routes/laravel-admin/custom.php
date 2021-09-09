@@ -8,5 +8,7 @@ Route::group([
     'prefix'     => config('laravel-admin.router.prefix', 'admin'),
     'as'     => 'laravel-admin.',
 ], function(){
-
+    Route::get('/', function () {
+        return view('laravel-admin::layouts.app');
+    })->name('dashboard');
 });
