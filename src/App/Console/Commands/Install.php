@@ -73,9 +73,6 @@ class Install extends Command
 			$this->error(' ' . $ex->getMessage());
 		}
 
-		// $this->line(" Creating App\Http\Middleware\CheckIfAdmin.php");
-		// $this->executeArtisanProcess('backpack:publish-middleware');
-
 		$this->progressBar->finish();
 		$this->info(' Admin installation finished.');
 	}
