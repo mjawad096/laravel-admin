@@ -8,7 +8,8 @@
         "jd-dotlogics/laravel-media": "^2",
         "laravel/ui": "^3.3",
         "nesbot/carbon": "*",
-        "yajra/laravel-datatables-oracle": "^9.18"
+        "yajra/laravel-datatables-oracle": "^9.18",
+        "spatie/laravel-sluggable": "^2.6"
     },
     "license": "MIT",
     "authors": [
