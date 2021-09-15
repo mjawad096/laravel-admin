@@ -11,4 +11,7 @@ Route::group([
     Route::get('/', function () {
         return view('laravel-admin::layouts.app');
     })->name('dashboard');
+
+    Route::get('setting', 'SettingController@edit')->name('setting.edit');
+	Route::put('setting', 'SettingController@update')->name('setting.update');
 });
