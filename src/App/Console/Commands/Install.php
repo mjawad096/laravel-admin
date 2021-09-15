@@ -66,6 +66,11 @@ class Install extends Command
 			]);			
 		}
 
+		$this->executeArtisanProcess('vendor:publish', [
+			'--provider' => 'Akaunting\Setting\Provider',
+			'--tag' => 'setting',
+		]);	
+		
 		$this->line(" Creating users table (using Laravel's default migration)");
 		try{
 			$this->executeArtisanProcess('migrate');
