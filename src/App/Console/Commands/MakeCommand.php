@@ -19,7 +19,7 @@ class MakeCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Create a CRUD: Model, Request, Controller';
+    protected $description = 'Create a CRUD resources: Model, Request, Controller and Migration';
 
     /**
      * Execute the console command.
