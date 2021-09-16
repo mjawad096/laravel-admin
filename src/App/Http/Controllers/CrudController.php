@@ -373,7 +373,7 @@ class CrudController extends Controller
 			$name = $field['name'];
 			$type = $field['type'] ?? 'text';
 
-			if($type != 'image'){
+			if($type != 'file' && $type != 'image'){
 				$data[$name] = $request->{$name};
 
 				if($type == 'status'){

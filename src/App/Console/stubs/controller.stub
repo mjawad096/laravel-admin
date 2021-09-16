@@ -21,8 +21,4 @@ class DummyClassController extends CrudController
     public function form_fields($item = null){
         return [];
     }
-
-    public function data(Request $request){
-        return [];
-    }
 }
