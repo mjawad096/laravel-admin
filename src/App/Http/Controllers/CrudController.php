@@ -203,6 +203,8 @@ class CrudController extends Controller
 
 			if($type == 'form'){
 				$breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
+			}else if($type == 'details'){
+				$breadcrumbs['Details'] = null;
 			}
 		}
 
