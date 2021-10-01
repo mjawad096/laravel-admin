@@ -28,6 +28,13 @@
                                         </tr>                                
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" class="text-right">
+                                            {!! $actions ?? null !!}
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
