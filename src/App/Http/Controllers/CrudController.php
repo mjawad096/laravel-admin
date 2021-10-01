@@ -183,7 +183,9 @@ class CrudController extends Controller
 		$specific_data = [];
 		
 		if($type == 'details'){
-
+			$specific_data = [
+				'actions' => $this->editActionsColumn($item),
+			];
 		}else if($type == 'form'){
 			$specific_data = [
 				'editing_form' => $editing_form,
@@ -292,7 +294,7 @@ class CrudController extends Controller
 	public function destroy($item)
 	{
 	    $this->resolveItem($item)->delete();
-	    return redirect()->back()->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
+	    return redirect()->route("{$this->route_base}.index")->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
 	}
 
 	protected function setFilesField($item, $name){
