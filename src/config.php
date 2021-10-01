@@ -9,7 +9,7 @@ return [
 	],
 	
 	'scripts' => [
-		'js/app.js',
+		// 'js/app.js',
 	],
 
 	'sidebar' => [
@@ -17,7 +17,7 @@ return [
 	],
 
 	'stylesheets' => [
-		'css/app.css',
+		// 'css/app.css',
 	],
 
 	'pages' => [
