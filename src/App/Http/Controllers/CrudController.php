@@ -24,7 +24,13 @@ class CrudController extends Controller
 	protected $table_columns = [];
 	protected $raw_columns = [];
 	protected $form_fields = [];
-
+	
+	/**
+	 * Resolve item
+	 *
+	 * @param  string|int $id
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
 	protected function resolveItem($id)
 	{
 		$item = app($this->model)->resolveRouteBinding($id);
@@ -35,17 +41,35 @@ class CrudController extends Controller
 
 		return $item;
 	}
-
+	
+	/**
+	 * Edit Category Id Column
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @return string
+	 */
 	public function editCategoryIdColumn($item)
 	{
 	    return $item->category->name ?? '';
 	}
-
+	
+	/**
+	 * Edit Status Column
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @return string
+	 */
 	public function editStatusColumn($item)
 	{
 	    return $item->status ? 'Active' : 'Inactive';
 	}
-
+	
+	/**
+	 * Edit Actions Column
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @return string
+	 */
 	public function editActionsColumn($item)
 	{
         $edit = '<a href="'. route("{$this->route_base}.edit", $item->id) .'" class="edit btn btn-primary btn-sm mt-1">&nbsp; Edit &nbsp;</a>';
@@ -53,15 +77,35 @@ class CrudController extends Controller
     	
     	return $this->extraActions([$edit, $delete], $item);
     }
-
+    
+    /**
+     * Extra Actions
+     *
+     * @param  array $actions
+     * @param  \Illuminate\Database\Eloquent\Model $item
+     * @return string
+     */
     protected function extraActions($actions, $item){
     	return implode(' ', $actions);
     }
-
+    
+    /**
+     * Image Column
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $item
+     * @param  string $name
+     * @return string
+     */
     public function imageColumn($item, $name = 'image'){
     	return render_table_cell_image($item->getImageUrl($name));
     }
-
+	
+	/**
+	 * Datatables
+	 *
+	 * @param  array $raw_columns
+	 * @return json
+	 */
 	protected function datatables($raw_columns = [])
 	{
 		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
@@ -108,11 +152,22 @@ class CrudController extends Controller
 
         return $datatable->toJson();
 	}
-
+	
+	/**
+	 * Get Form Fields
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @return array
+	 */
 	protected function getFormFields($item){
 		return method_exists($this, 'form_fields') ? $this->form_fields($item) : ($this->form_fields ?? []);
 	}
-
+	
+	/**
+	 * Get Table Columns
+	 *
+	 * @return array
+	 */
 	protected function getTableColumns(){
 		$table_columns = method_exists($this, 'table_columns') ? $this->table_columns() : ($this->table_columns ?? []);
 
@@ -124,7 +179,14 @@ class CrudController extends Controller
 
 		return $table_columns;
 	}
-
+	
+	/**
+	 * Get Breadcrumbs
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @param  array $options
+	 * @return array
+	 */
 	protected function getBreadcrumbs($item, $options = []){
 		extract($options);
 
@@ -146,7 +208,13 @@ class CrudController extends Controller
 
 		return array_merge($baseBreadcrumbs, $breadcrumbs);
 	}
-
+	
+	/**
+	 * View data
+	 *
+	 * @param  array $extra
+	 * @return array
+	 */
 	protected function view_data($extra = [])
 	{
 		$item = $extra['item'] ?? null;
@@ -200,7 +268,12 @@ class CrudController extends Controller
 
 		return array_merge($data, $specific_data, $extra ?? []);
 	}
-
+	
+	/**
+	 * Get Create Link Data
+	 *
+	 * @return array
+	 */
 	protected function getCreateLinkData(){
 		return [
 			'text' => 'Add new',
@@ -296,7 +369,14 @@ class CrudController extends Controller
 	    $this->resolveItem($item)->delete();
 	    return redirect()->route("{$this->route_base}.index")->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
 	}
-
+	
+	/**
+	 * Set Files Field
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @param  string $name
+	 * @return void
+	 */
 	protected function setFilesField($item, $name){
 		$tempMediaToBeDel = [];
 
@@ -311,7 +391,16 @@ class CrudController extends Controller
 		}
 	}
 
-
+	
+	/**
+	 * Fill and Save
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @param  bool $save
+	 * @param  bool $redirect
+	 * @return \Illuminate\Http\Response|bool
+	 */
 	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true){
 	    // dd($this->data($request));
 
@@ -365,7 +454,14 @@ class CrudController extends Controller
 	    return true;
 	}
 
-
+	
+	/**
+	 * Data From Fields
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 * @param  \Illuminate\Database\Eloquent\Model $item
+	 * @return array
+	 */
 	protected function dataFromFields(Request $request, $item){
 		$fields = $this->getFormFields($item);
 
