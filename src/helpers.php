@@ -28,13 +28,21 @@ function toOptionArray(iterable $collection, $field_text = null, $field_value = 
 		}
 
 		if(!empty($field_text)){
-			$text = $item->{$field_text} ?? null;
+			if(is_callable($field_text)){
+				$text = $field_text($item);
+			}else{
+				$text = $item->{$field_text} ?? null;
+			}
 		}else{
 			$text = $item->name ?? $item->title ?? $item->text ?? $item->location ?? null;
 		}
 
 		if(!empty($field_value)){
-			$value = $item->{$field_value} ?? null;
+			if(is_callable($field_value)){
+				$value = $field_value($item);
+			}else{
+				$value = $item->{$field_value} ?? null;
+			}
 		}else{
 			$value = $item->id ?? $item->value ?? null;
 		}
