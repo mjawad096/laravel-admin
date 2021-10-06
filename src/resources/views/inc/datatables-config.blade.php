@@ -33,7 +33,7 @@
             let $jdDataTable = $('.jd-datatable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ request()->url() }}",
+                ajax: "{{ request()->fullUrl() }}",
                 columns: @json($table_columns ?? []),
                 columnDefs: [
                     { orderable: false, targets: 'no-sort' },

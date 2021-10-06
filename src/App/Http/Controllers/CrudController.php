@@ -369,6 +369,15 @@ class CrudController extends Controller
 	public function destroy($item)
 	{
 	    $this->resolveItem($item)->delete();
+
+	    if(method_exists($this, 'afterDelete')){
+			$result = $this->afterDelete($item);
+
+			if(!is_null($result)){
+				return $result;
+			}
+		}
+		
 	    return redirect()->route("{$this->route_base}.index")->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
 	}
 	
@@ -440,8 +449,21 @@ class CrudController extends Controller
 	        	}
 	        }
 
-			if(method_exists($this, 'afterSave')){
-				$this->afterSave($item);
+			$afterMethod = null;
+			if($item->wasRecentlyCreated && method_exists($this, 'afterStore')){
+				$afterMethod = 'afterStore';
+			}else if(!$item->wasRecentlyCreated && method_exists($this, 'afterUpdate')){
+				$afterMethod = 'afterUpdate';
+			}else if(method_exists($this, 'afterSave')){
+				$afterMethod = 'afterSave';
+			}
+
+			if(!empty($afterMethod)){
+				$result = $this->{$afterMethod}($item);
+
+				if(!is_null($result)){
+					return $result;
+				}
 			}
 
 	        if($redirect){
