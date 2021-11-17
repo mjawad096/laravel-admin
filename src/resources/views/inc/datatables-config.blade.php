@@ -40,7 +40,7 @@
                     { orderable: false, targets: 'no-sort' },
                     { visible: false, targets: 'no-show' }
                 ],
-                order: [[ 0, "desc" ]],
+                order: [[ {{ $sorting_column ?? 0 }}, "desc" ]],
             });
 
             if(window.afterJdDataTableInit && typeof window.afterJdDataTableInit === 'function'){

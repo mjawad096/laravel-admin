@@ -22,6 +22,7 @@ class CrudController extends Controller
 	protected $request;
 
 	protected $table_columns = [];
+	protected $table_sorting_column = 0;
 	protected $raw_columns = [];
 	protected $form_fields = [];
 	
@@ -265,6 +266,7 @@ class CrudController extends Controller
 			$specific_data = [
 				'table_columns' => $this->getTableColumns($item),
 				'raw_columns' => $this->raw_columns,
+				'sorting_column' => intval($this->table_sorting_column ?? 0),
 			];
 		}
 
