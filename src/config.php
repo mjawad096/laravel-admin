@@ -32,6 +32,7 @@ return [
 		'profile' => [
 			'edit' => 'laravel-admin.profile.edit'
 		],
+		
 		'user' => [
 			'login' => 'laravel-admin.login',
 			'logout' => 'laravel-admin.logout',
