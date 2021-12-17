@@ -18,38 +18,38 @@ Here is the list of all publishable views
 ```
  📂auth
  ┣ 📂passwords
- ┃ ┣ 📜confirm.blade.php
- ┃ ┣ 📜email.blade.php
- ┃ ┗ 📜reset.blade.php
- ┣ 📜login.blade.php
- ┣ 📜register.blade.php
- ┗ 📜verify.blade.php
+ ┃ ┣ 📜confirm
+ ┃ ┣ 📜email
+ ┃ ┗ 📜reset
+ ┣ 📜login
+ ┣ 📜register
+ ┗ 📜verify
  📂components
- ┣ 📜auth-session-status.blade.php
- ┗ 📜auth-validation-errors.blade.php
+ ┣ 📜auth-session-status
+ ┗ 📜auth-validation-errors
  📂crud
- ┣ 📜details.blade.php
- ┣ 📜form.blade.php
- ┗ 📜list.blade.php
+ ┣ 📜details
+ ┣ 📜form
+ ┗ 📜list
  📂fields
- ┣ 📜date.blade.php
- ┣ 📜editor.blade.php
- ┣ 📜field.blade.php
- ┣ 📜file.blade.php
- ┣ 📜image.blade.php
- ┣ 📜select.blade.php
- ┣ 📜status.blade.php
- ┣ 📜text.blade.php
- ┗ 📜textarea.blade.php
+ ┣ 📜date
+ ┣ 📜editor
+ ┣ 📜field
+ ┣ 📜file
+ ┣ 📜image
+ ┣ 📜select
+ ┣ 📜status
+ ┣ 📜text
+ ┗ 📜textarea
  📂inc
- ┣ 📜datatables-config.blade.php
- ┣ 📜footer.blade.php
- ┣ 📜header.blade.php
- ┣ 📜sidebar-menu.blade.php
- ┣ 📜sidebar.blade.php
- ┗ 📜user-menu.blade.php
+ ┣ 📜datatables-config
+ ┣ 📜footer
+ ┣ 📜header
+ ┣ 📜sidebar-menu
+ ┣ 📜sidebar
+ ┗ 📜user-menu
  📂layouts
- ┣ 📜app.blade.php
- ┗ 📜main.blade.php
- 📜settings.blade.php
+ ┣ 📜app
+ ┗ 📜main
+ 📜settings
 ```
