@@ -5,4 +5,4 @@
     }
 @endphp
 
-<input type="{{ $type ?? 'text' }}" id="input-{{ $name }}" class="form-control" name="{{ $name }}" placeholder="{{ $title }}" value="{{ $value }}">
+<input type="{{ $type ?? 'text' }}" id="input-{{ $name }}" class="form-control" name="{{ $name }}" placeholder="{{ $placeholder }}" value="{{ $value }}">

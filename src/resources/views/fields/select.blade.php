@@ -1,4 +1,6 @@
 @php
+    $options = $options ?? [];
+    
     $multiple = $multiple ?? false;
     $selected = old($name) !== null ? old($name) : ($item->{$name} ?? $default_value) ;
     
@@ -14,9 +16,10 @@
         $selected->pluck('id');
     }
 @endphp
+
 <select class="form-control" name="{{ $name }}{{ $multiple ? '[]' : '' }}" id="input-{{ $name }}" {{ $multiple ? 'multiple' : '' }}>
     @if(!$multiple)
-        <option value="" selected>Select {{ suggest_a_an($title) }} {{ strtolower($title) }}</option>
+        <option value="" selected>{{ $placeholder }}</option>
     @endif
 
     @foreach($options as $option)

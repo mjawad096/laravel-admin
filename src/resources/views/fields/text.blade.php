@@ -1,1 +1,1 @@
-<input type="{{ $type ?? 'text' }}" id="input-{{ $name }}" class="form-control" name="{{ $name }}" placeholder="{{ $title }}" value="{{ old($name) ?? $item->{$name} ?? $default_value }}">
+<input type="{{ $type ?? 'text' }}" id="input-{{ $name }}" class="form-control" name="{{ $name }}" placeholder="{{ $placeholder }}" value="{{ old($name) ?? $item->{$name} ?? $default_value }}">

@@ -1,5 +1,4 @@
-<textarea type="text" id="input-{{ $name }}" class="form-control rich-editor{{ $advance ? '-advance' : '' }}" name="{{ $name }}" placeholder="{{ $title }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
-
+<textarea type="text" id="input-{{ $name }}" class="form-control rich-editor{{ $advance ? '-advance' : '' }}" name="{{ $name }}" placeholder="{{ $placeholder }}">{{ old($name) ?? $item->{$name} ?? $default_value }}</textarea>
 
 @pushonce('js')
     <script src="https://cdn.tiny.cloud/1/plvfgap34uuvzkaly2pp6oeweszgvb15ra0q9ff7jqvwrmdv/tinymce/4/tinymce.min.js" referrerpolicy="origin"></script>
