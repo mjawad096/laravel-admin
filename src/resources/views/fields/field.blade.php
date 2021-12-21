@@ -7,7 +7,13 @@
 
 	if($field['type'] == 'status'){
 		$field['title'] = 'Status';
-	}
+	} 
+    
+    if($field['type'] == 'select'){
+        $field['placeholder'] = $field['placeholder'] ?? 'Select ' . suggest_a_an($field['title']) . ' ' . strtolower($field['title']);
+    }else{
+        $field['placeholder'] = $field['placeholder'] ?? $field['title'];
+    }
 
 	extract($field);
 @endphp
