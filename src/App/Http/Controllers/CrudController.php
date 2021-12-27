@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Dotlogics\Media\App\Models\TempMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class CrudController extends Controller
 {
@@ -401,6 +402,10 @@ class CrudController extends Controller
 
 		if(count($tempMediaToBeDel)){
 			TempMedia::whereIn('id', $tempMediaToBeDel)->delete();
+		}
+
+		if(count($mediaToBeDel = request("deleted_files.{$name}", []))){
+			Media::whereIn('id', $mediaToBeDel)->delete();
 		}
 	}
 
