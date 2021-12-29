@@ -101,6 +101,16 @@ class CrudController extends Controller
     public function imageColumn($item, $name = 'image'){
     	return render_table_cell_image($item->getImageUrl($name));
     }
+
+    /**
+     * @param  mixed $query
+     * 
+	 * @return mixed
+     */
+	protected function datatables_query($query)
+	{
+		return $query;
+	}
 	
 	/**
 	 * Datatables
@@ -110,9 +120,9 @@ class CrudController extends Controller
 	 */
 	protected function datatables($raw_columns = [])
 	{
-		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
+		$datatable = datatables($this->datatables_query($this->model::query()));
 
-		$datatable = datatables()->of($this->model::query());
+		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
 
         foreach ($this->table_columns as $column) {
         	$type = $column['type'] ?? 'text';
