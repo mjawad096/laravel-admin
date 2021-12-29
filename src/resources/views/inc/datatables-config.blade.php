@@ -38,7 +38,8 @@
                 columns: @json($table_columns ?? []),
                 columnDefs: [
                     { orderable: false, targets: 'no-sort' },
-                    { visible: false, targets: 'no-show' }
+                    { visible: false, targets: 'no-show' },
+                    { searchable: false, targets: 'no-search' },
                 ],
                 order: [[ {{ $sorting_column ?? 0 }}, "desc" ]],
             });
