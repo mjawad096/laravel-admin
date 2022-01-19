@@ -87,7 +87,8 @@ class CrudController extends Controller
      * @param  \Illuminate\Database\Eloquent\Model $item
      * @return string
      */
-    protected function extraActions($actions, $item){
+    protected function extraActions($actions, $item)
+	{
     	return implode(' ', $actions);
     }
     
@@ -98,7 +99,8 @@ class CrudController extends Controller
      * @param  string $name
      * @return string
      */
-    public function imageColumn($item, $name = 'image'){
+    public function imageColumn($item, $name = 'image')
+	{
     	return render_table_cell_image($item->getImageUrl($name));
     }
 
@@ -111,7 +113,17 @@ class CrudController extends Controller
 	{
 		return $query;
 	}
-	
+
+    /**
+     * @param mixed $query
+     * 
+	 * @return void
+     */
+	protected function datatables_filter($query)
+	{
+
+	}
+
 	/**
 	 * Datatables
 	 *
@@ -121,6 +133,8 @@ class CrudController extends Controller
 	protected function datatables($raw_columns = [])
 	{
 		$datatable = datatables($this->datatables_query($this->model::query()));
+
+		$datatable->filter(fn($query) => $this->datatables_filter($query), true);
 
 		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
 
@@ -171,8 +185,19 @@ class CrudController extends Controller
 	 * @param  \Illuminate\Database\Eloquent\Model $item
 	 * @return array
 	 */
-	protected function getFormFields($item){
+	protected function getFormFields($item)
+	{
 		return method_exists($this, 'form_fields') ? $this->form_fields($item) : ($this->form_fields ?? []);
+	}
+	
+	/**
+	 * Get Filter Fields
+	 *
+	 * @return array
+	 */
+	protected function getFilterFields()
+	{
+		return method_exists($this, 'filter_fields') ? $this->filter_fields() : ($this->filter_fields ?? []);
 	}
 	
 	/**
@@ -180,7 +205,8 @@ class CrudController extends Controller
 	 *
 	 * @return array
 	 */
-	protected function getTableColumns(){
+	protected function getTableColumns()
+	{
 		$table_columns = method_exists($this, 'table_columns') ? $this->table_columns() : ($this->table_columns ?? []);
 
 		foreach ($table_columns as &$column) {
@@ -199,7 +225,8 @@ class CrudController extends Controller
 	 * @param  array $options
 	 * @return array
 	 */
-	protected function getBreadcrumbs($item, $options = []){
+	protected function getBreadcrumbs($item, $options = [])
+	{
 		extract($options);
 
 		$baseBreadcrumbs = method_exists($this, 'baseBreadcrumbs') ? $this->baseBreadcrumbs($item, $options) : ($this->baseBreadcrumbs ?? []);
@@ -276,6 +303,7 @@ class CrudController extends Controller
 		}else{
 			$specific_data = [
 				'table_columns' => $this->getTableColumns($item),
+				'filter_fields' => $this->getFilterFields($item),
 				'raw_columns' => $this->raw_columns,
 				'sorting_column' => intval($this->table_sorting_column ?? 0),
 			];
@@ -289,7 +317,8 @@ class CrudController extends Controller
 	 *
 	 * @return array
 	 */
-	protected function getCreateLinkData(){
+	protected function getCreateLinkData()
+	{
 		return [
 			'text' => 'Add new',
 			'link' => route("{$this->route_base}.create"),
@@ -401,7 +430,8 @@ class CrudController extends Controller
 	 * @param  string $name
 	 * @return void
 	 */
-	protected function setFilesField($item, $name){
+	protected function setFilesField($item, $name)
+	{
 		$tempMediaToBeDel = [];
 
 		foreach (TempMedia::find(request($name, [])) as $tempMedia) {
@@ -429,7 +459,8 @@ class CrudController extends Controller
 	 * @param  bool $redirect
 	 * @return \Illuminate\Http\Response|bool
 	 */
-	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true){
+	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true)
+	{
 	    // dd($this->data($request));
 
 		if(method_exists($this, 'beforeFill')){
@@ -503,7 +534,8 @@ class CrudController extends Controller
 	 * @param  \Illuminate\Database\Eloquent\Model $item
 	 * @return array
 	 */
-	protected function dataFromFields(Request $request, $item){
+	protected function dataFromFields(Request $request, $item)
+	{
 		$fields = $this->getFormFields($item);
 
 		$data = [];
