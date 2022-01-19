@@ -7,14 +7,36 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title w-100 text-right">
-                            @if($links->create !== null)
-                                @if(!empty($links->create->html))
-                                    {!! $links->create->html !!}
-                                @else
-                                    <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                        <h4 class="card-title w-100">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    @if (!empty($filter_fields))
+                                        <form name="table-filters" class="row">
+                                            @foreach($filter_fields as $field)
+                                                <div class="col-md-4">
+                                                    @php
+                                                        $field['default']  = request($field['name'], $field['default'] ?? null);
+                                                    @endphp
+                                                    
+                                                    @include('laravel-admin::fields.field', $field)
+                                                </div>
+                                            @endforeach
+                                        </form> 
+                                    @endif
+                                </div>
+
+                                @if($links->create !== null)
+                                    <div class="col-md-2">
+                                        <div class="text-right">
+                                            @if(!empty($links->create->html))
+                                                {!! $links->create->html !!}
+                                            @else
+                                                <a href="{{ $links->create->link }}" class="btn btn-sm btn-success">{{ $links->create->text }}</a>
+                                            @endif
+                                        </div>
+                                    </div>
                                 @endif
-                            @endif
+                            </div>
                         </h4>
                     </div>
                     <div class="card-content">

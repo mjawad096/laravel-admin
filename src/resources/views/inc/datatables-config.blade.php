@@ -22,10 +22,38 @@
     <script>
         jQuery(document).ready(function ($) {
             let ajax_status = null;
+            let filterForm = $('form[name=table-filters]');
+
+            let updateQueryParams = function(params, url){
+                try {
+                    url = url || window.location.href
+                    url = new URL(url);
+
+                    params.forEach(function(param){
+                        if(param.value){
+                            url.searchParams.set(param.name, param.value);
+                        }else{
+                            url.searchParams.delete(param.name);
+                        }
+                    });
+
+                    let newUrl = url.toString();
+
+                    window.history.pushState({path: newUrl}, '', newUrl);
+                } catch (e) {console.log(e)}
+            }
+
+            let debounce = function(func, timeout = 250){
+                let timer;
+                return function(...args){
+                    clearTimeout(timer);
+                    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+                };
+            }
 
             $.fn.dataTable.ext.errMode = function( settings, techNote, message ){
                 if(ajax_status == 401 || ajax_status == 419){
-                    message = 'Sorry, your session has expired. please refresh and try again'
+                    message = 'Sorry, your session has expired. please refresh and try again.'
                 }
                 alert(message)
             }
@@ -34,7 +62,16 @@
                 processing: true,
                 serverSide: true,
                 stateSave: true,
-                ajax: "{{ request()->fullUrl() }}",
+                ajax: {
+                    url: @json(['url' => request()->fullUrl()]).url,
+                    data: function(d){
+                        filterForm
+                            .serializeArray()
+                            .forEach(function(element){
+                                d[element.name] = element.value;
+                            });
+                    },
+                },
                 columns: @json($table_columns ?? []),
                 columnDefs: [
                     { orderable: false, targets: 'no-sort' },
@@ -51,6 +88,12 @@
             $jdDataTable.on('xhr', function(e, settings, json, xhr){
                 ajax_status = xhr.status
             });
+
+            filterForm.on('change', debounce(function(e) {
+                $jdDataTable.ajax.reload();
+
+                updateQueryParams(filterForm.serializeArray());
+            }));
         });
     </script>
 @endpush
