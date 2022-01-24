@@ -461,8 +461,6 @@ class CrudController extends Controller
 	 */
 	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true)
 	{
-	    // dd($this->data($request));
-
 		if(method_exists($this, 'beforeFill')){
 			$this->beforeFill($item);
 		}
@@ -541,6 +539,10 @@ class CrudController extends Controller
 		$data = [];
 
 		foreach ($fields as $key => $field) {
+			if(!($field['enabled'] ?? true)){
+				continue;
+			}
+			
 			$name = $field['name'];
 			$type = $field['type'] ?? 'text';
 

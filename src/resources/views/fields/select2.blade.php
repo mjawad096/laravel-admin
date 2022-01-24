@@ -2,6 +2,8 @@
 
 @php
     $options = $options ?? [];
+    $multiple = $multiple ?? false;
+    $placeholder = $placeholder ?? null;
 
     $ajax = $ajax ?? null;
     $ajax = is_string($ajax) ? ['url' => $ajax] : $ajax;
@@ -21,9 +23,10 @@
     <script>
         jQuery(document).ready(function($) {
             let input = $('#input-{{ $name }}');
-            let placeholder = input.find('option').eq(0).text() || '';
+            let placeholder = '{{ $placeholder }}' || input.find('option').eq(0).text() || '';
 
             let options = {
+                closeOnSelect: {{ $multiple ? 'false' : 'true' }},
                 allowClear: placeholder && {{ $allowClear ? 'true' : 'false' }},
                 placeholder,
             };
