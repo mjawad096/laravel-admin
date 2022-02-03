@@ -8,7 +8,7 @@
 ])
 
 @section('content')
-    <form class="form form-vertical {{ $errors->count() ? 'error' : '' }}" method="post" action="{{ route('laravel-admin.setting.update') }}" novalidate>
+    <form class="form form-vertical {{ $errors->count() ? 'error' : '' }}" method="post" action="{{ route('laravel-admin.setting.update') }}" enctype='multipart/form-data' novalidate>
         <div class="form-body">
             <div class="row match-height ">
                 @csrf

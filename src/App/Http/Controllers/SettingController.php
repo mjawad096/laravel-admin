@@ -2,8 +2,9 @@
 
 namespace Dotlogics\Admin\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SettingController extends Controller
 {
@@ -42,16 +43,23 @@ class SettingController extends Controller
 
         $rules = [];
         $names = [];
+        $messages = [];
         foreach ($fields as $field) {
             $field_name = $field['name'];
             $field_label = $field['title'];
             $field_rules = $field['rules'] ?? '';
+            $field_rule_messages = $field['rule_messages'] ?? [];
 
             $rules[$field_name] = $field_rules;
             $names[$field_name] = strtolower($field_label);
+            
+            collect($field_rule_messages)
+                ->each(function($message, $key) use ($field_name, &$messages){
+                    $messages["{$field_name}.{$key}"] = $message;
+                });
         }
-
-        $request->validate($rules, [], $names);
+        
+        $request->validate($rules, $messages, $names);
 
         if($request->truncate){
             $settings = setting()->all();
@@ -62,9 +70,18 @@ class SettingController extends Controller
 
         $settings = [];
         foreach ($fields as $field) {
-            $value = $request->get($field['name']) ?? '';
-            $key = str_replace('-', '.', $field['name']);
+            $name = $field['name'];
 
+            $value = $request->get($name) ?? '';
+            $key = str_replace('-', '.', $name);
+            
+            $mehtod = Str::studly($name);
+	        $mehtod = "set{$mehtod}FieldData";
+
+            if(method_exists($this, $mehtod)){
+                $value = $this->{$mehtod}($field, $key, $value);
+            }
+            
             $settings[$key] = $value;
         }
 
