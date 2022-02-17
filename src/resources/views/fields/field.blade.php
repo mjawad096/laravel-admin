@@ -19,26 +19,28 @@
 @endphp
 
 @if($enabled)
-	<div class="form-group {{ $errors->has($name) ? 'error' : '' }}">
-        <label for="input-{{ $name }}">
-            {{ $title }}
+    <div class="col-{{ $cols ?? 12 }}">
+        <div class="form-group {{ $errors->has($name) ? 'error' : '' }}">
+            <label for="input-{{ $name }}">
+                {{ $title }}
 
-            @if(!empty($sub_title))
-                <br><i><small>{{ $sub_title }}</small></i>
-            @endif
-        </label>
-        
-        <div class="controls">
+                @if(!empty($sub_title))
+                    <br><i><small>{{ $sub_title }}</small></i>
+                @endif
+            </label>
+            
+            <div class="controls">
 
-			@includeFirst(["laravel-admin::fields.{$type}", 'laravel-admin::fields.text'])
-        	
-        	@error($name)
-                <div class="help-block">
-                    <ul role="alert">
-                        <li>{{ $message }}</li>
-                    </ul>
-                </div>
-            @enderror
+                @includeFirst(["laravel-admin::fields.{$type}", 'laravel-admin::fields.text'])
+                
+                @error($name)
+                    <div class="help-block">
+                        <ul role="alert">
+                            <li>{{ $message }}</li>
+                        </ul>
+                    </div>
+                @enderror
+            </div>
         </div>
     </div>
 @endif

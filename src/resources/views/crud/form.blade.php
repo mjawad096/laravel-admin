@@ -20,9 +20,7 @@
                                 <div class="form-body">
                                     <div class="row">
                                         @foreach($form_fields as $field)
-                                            <div class="col-12">
-                                                @include('laravel-admin::fields.field', $field)
-                                            </div>
+                                            @include('laravel-admin::fields.field', $field)                                            
                                         @endforeach
 
                                         <div class="col-12">
