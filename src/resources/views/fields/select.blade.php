@@ -5,15 +5,11 @@
     $selected = old($name) !== null ? old($name) : ($item->{$name} ?? $default_value) ;
     
     if($multiple){
-        if(empty($selected)){
-            $selected = [];
+        if(!is_array($selected)){
+            $selected = (array)$selected;
         }
-
-        if(is_array($selected)){
-            $selected = collect($selected);
-        }
-
-        $selected->pluck('id');
+        
+        $selected = collect($selected);
     }
 @endphp
 
