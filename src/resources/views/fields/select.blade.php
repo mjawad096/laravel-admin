@@ -4,11 +4,7 @@
     $multiple = $multiple ?? false;
     $selected = old($name) !== null ? old($name) : ($item->{$name} ?? $default_value) ;
     
-    if($multiple){
-        if(!is_array($selected)){
-            $selected = (array)$selected;
-        }
-        
+    if($multiple && !is_collection($selected)){
         $selected = collect($selected);
     }
 @endphp
