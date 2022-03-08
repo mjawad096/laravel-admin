@@ -1,8 +1,8 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 function title_case($value = '')
 {
@@ -85,4 +85,8 @@ function toString($value){
 	}
 
 	return json_encode($value);
+}
+
+function is_collection($var){
+	return $var instanceof Collection;
 }
