@@ -13,9 +13,10 @@
                                     @if (!empty($filter_fields))
                                         <form name="table-filters" class="row">
                                             @foreach($filter_fields as $field)
-                                                <div class="col-md-4">
+                                                <div class="col-{{ $field['cols'] ?? 'md-4' }}">
                                                     @php
                                                         $field['default']  = request($field['name'], $field['default'] ?? null);
+                                                        $field['cols'] = '12 p-0';
                                                     @endphp
                                                     
                                                     @include('laravel-admin::fields.field', $field)
