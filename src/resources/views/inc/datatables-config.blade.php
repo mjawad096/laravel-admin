@@ -24,9 +24,9 @@
             let ajax_status = null;
             let filterForm = $('form[name=table-filters]');
 
-            let updateQueryParams = function(params, url){
+            let updateQueryParams = function(params, _url, return_url){
                 try {
-                    url = url || window.location.href
+                    let url = _url || window.location.href
                     url = new URL(url);
 
                     params.forEach(function(param){
@@ -39,8 +39,16 @@
 
                     let newUrl = url.toString();
 
+                    if(return_url){
+                        return newUrl;
+                    }
+
                     window.history.pushState({path: newUrl}, '', newUrl);
                 } catch (e) {console.log(e)}
+
+                if(return_url){
+                    return _url;
+                }
             }
 
             let debounce = function(func, timeout = 250){
@@ -50,8 +58,17 @@
                     timer = setTimeout(() => { func.apply(this, args); }, timeout);
                 };
             }
+            
+            let updateCreateLink = function(){
+                let anchor = $('.link-create a');
+                let fields = filterForm.find('.append_to_create_link').find(':input');
+
+                let create_url = updateQueryParams(fields.serializeArray(), anchor.attr('href'), true);
+                anchor.attr('href', create_url);
+            };
 
             updateQueryParams(filterForm.serializeArray());
+            updateCreateLink();
 
             $.fn.dataTable.ext.errMode = function( settings, techNote, message ){
                 if(ajax_status == 401 || ajax_status == 419){
@@ -114,6 +131,8 @@
                 $jdDataTable.ajax.reload();
 
                 updateQueryParams(filterForm.serializeArray());
+
+                updateCreateLink();                
             }));
         });
     </script>
