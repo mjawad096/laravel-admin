@@ -51,6 +51,8 @@
                 };
             }
 
+            updateQueryParams(filterForm.serializeArray());
+
             $.fn.dataTable.ext.errMode = function( settings, techNote, message ){
                 if(ajax_status == 401 || ajax_status == 419){
                     message = 'Sorry, your session has expired. please refresh and try again.'
@@ -79,6 +81,25 @@
                     { searchable: false, targets: 'no-search' },
                 ],
                 order: [[ {{ $sorting_column ?? 0 }}, "desc" ]],
+                stateSaveCallback: function(settings, data) {
+                    try {
+                        (settings.iStateDuration === -1 ? sessionStorage : localStorage).setItem(
+                            'DataTables_' + settings.sInstance + '_' + location.pathname +  location.search,
+                            JSON.stringify(data)
+                        );
+                    } catch (e) {}
+                },
+                stateLoadCallback: function(settings) {
+                    try {
+                        return JSON.parse(
+                            (settings.iStateDuration === -1 ? sessionStorage : localStorage).getItem(
+                                'DataTables_' + settings.sInstance + '_' + location.pathname +  location.search
+                            )
+                        );
+                    } catch (e) {
+                        return {};
+                    }
+                },
             });
 
             if(window.afterJdDataTableInit && typeof window.afterJdDataTableInit === 'function'){
