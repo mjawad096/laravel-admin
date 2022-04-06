@@ -13,7 +13,7 @@
                                     @if (!empty($filter_fields))
                                         <form name="table-filters" class="row">
                                             @foreach($filter_fields as $field)
-                                                <div class="col-{{ $field['cols'] ?? 'md-4' }}">
+                                                <div class="col-{{ $field['cols'] ?? 'md-4' }} {{ ($field['append_to_create_link'] ?? false) ? 'append_to_create_link' : '' }}">
                                                     @php
                                                         $field['default']  = request($field['name'], $field['default'] ?? null);
                                                         $field['cols'] = '12 p-0';
@@ -28,7 +28,7 @@
 
                                 @if($links->create !== null)
                                     <div class="col-md-2">
-                                        <div class="text-right">
+                                        <div class="text-right link-create">
                                             @if(!empty($links->create->html))
                                                 {!! $links->create->html !!}
                                             @else
