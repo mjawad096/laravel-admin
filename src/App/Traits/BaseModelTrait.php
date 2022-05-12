@@ -22,16 +22,18 @@ trait BaseModelTrait
     }
 
     public function getImageUrl($field = null, $media = null){
-        if(!is_null($media)){
-            return route('media.show', $media);
+        if(is_null($media)){
+            $media = $this->getFirstMedia($field);
         }
 
-        return $this->hasMedia($field) ? route('media.show', $this->getFirstMedia($field)) : null;
+        if(empty($media)) return null;
+
+        return $media->getFullUrl();
     }
 
     public function getFilesUrl($field){
         return $this->getMedia($field)->map(function($media){
-            return route('media.show', $media);
+            return $media->getFullUrl();
         });
     }
 
