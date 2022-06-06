@@ -108,11 +108,15 @@
             }
 
             @if(session()->has('message'))
-                toastr['{{ session('status') ? 'success' : 'error' }}']('{{ session('message') }}');
+                setTimeout(() => {
+                    toastr['{{ session('status') ? 'success' : 'error' }}']('{{ session('message') }}');
+                }, 0);
             @endif
 
             @if ($errors->count())
-                toastr.error('The given data was invalid')
+                setTimeout(() => {
+                    toastr.error('The given data was invalid')
+                }, 0);
             @endif
 
             $(document).on('click', '[data-action_button]', function(event) {
