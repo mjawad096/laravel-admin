@@ -20,14 +20,14 @@ class MakeControllerCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'laravel-admin:make:controller {name}';
+    protected $signature = 'laravel-admin:make:controller {name} {--S|setting}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate a CRUD controller';
+    protected $description = 'Generate a CRUD/Setting controller';
 
     /**
      * The type of class being generated.
@@ -57,7 +57,8 @@ class MakeControllerCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/controller.stub';
+        $prefix = $this->hasOption('setting') ? 'setting-' : '';
+        return __DIR__."/../stubs/{$prefix}controller.stub";
     }
 
     /**

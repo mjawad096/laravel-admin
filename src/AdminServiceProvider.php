@@ -5,7 +5,6 @@ namespace Dotlogics\Admin;
 // use Dotlogics\Admin\App\Http\Middleware\Authenticate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
-use Livewire;
 use Blade;
 
 class AdminServiceProvider extends ServiceProvider
@@ -69,16 +68,6 @@ class AdminServiceProvider extends ServiceProvider
             $viewBasePath = dirname(trim($viewBasePath,'\/'));
             $args = substr_replace($args, $viewBasePath.'.', 1, 0);
             return "<?php echo \$__env->make({$args}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
-        });
-
-        Blade::directive('pushonce', function ($expression) {
-            $var = '$__env->{"__pushonce_" . md5(__FILE__ . ":" . __LINE__)}';
-
-            return "<?php if(!isset({$var})): {$var} = true; \$__env->startPush({$expression}); ?>";
-        });
-
-        Blade::directive('endpushonce', function ($expression) {
-            return '<?php $__env->stopPush(); endif; ?>';
         });
     }
 
