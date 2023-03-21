@@ -10,7 +10,7 @@
         "spatie/laravel-sluggable": "^3.4",
         "akaunting/laravel-setting": "^1.2",
         "laravel/ui": "^4.2",
-        "jd-dotlogics/laravel-media": "@dev"
+        "jd-dotlogics/laravel-media": "^3"
     },
     "license": "MIT",
     "authors": [
