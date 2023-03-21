@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use Dotlogics\Admin\App\Http\Controllers\SettingController as BaseController;
+
+class DummyClassController extends BaseController
+{
+    protected function fields()
+    {
+        return collect($groups = [
+            [
+                'title' => 'General Configuration',
+                'fields' => [],
+            ],
+        ]);
+    } 
+}
