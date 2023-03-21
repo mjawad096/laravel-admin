@@ -13,7 +13,7 @@ class Authenticate extends BaseMiddleware
      * @return string|null
      */
     protected function redirectTo($request)
-    {        
+    {
         if (! $request->expectsJson()) {
             return route('laravel-admin.login');
         }

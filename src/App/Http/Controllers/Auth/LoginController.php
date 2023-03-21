@@ -3,7 +3,6 @@
 namespace Dotlogics\Admin\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -46,14 +45,15 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function redirectTo(){
+    public function redirectTo()
+    {
         $dashboard_url = config('laravel-admin.dashboard_url', '/');
         $dashboard_route = config('laravel-admin.routes.dashboard');
 
-        if(!empty($dashboard_route)){
+        if (! empty($dashboard_route)) {
             $dashboard_url = route($dashboard_route);
         }
-        
+
         return $dashboard_url;
     }
 }
