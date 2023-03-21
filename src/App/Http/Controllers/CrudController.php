@@ -2,560 +2,555 @@
 
 namespace Dotlogics\Admin\App\Http\Controllers;
 
-use Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Model;
 use Dotlogics\Media\App\Models\TempMedia;
+use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Str;
 
 class CrudController extends Controller
 {
-	protected $view_base = 'laravel-admin::crud';
-	protected $route_base;
+    protected $view_base = 'laravel-admin::crud';
 
-	protected $entery;
-	protected $menu_active;
-	protected $page_title;
-	protected $breadcrumbs = [];
+    protected $route_base;
 
-	protected $model;
-	protected $request;
+    protected $entery;
 
-	protected $table_columns = [];
-	protected $table_sorting_column = 0;
-	protected $raw_columns = [];
-	protected $form_fields = [];
-	
-	/**
-	 * Resolve item
-	 *
-	 * @param  string|int $id
-	 * @return \Illuminate\Database\Eloquent\Model
-	 */
-	protected function resolveItem($id)
-	{
-		$item = app($this->model)->resolveRouteBinding($id);
+    protected $menu_active;
 
-		request()->merge([
-			'_item' => $item,
-		]);
+    protected $page_title;
 
-		return $item;
-	}
-	
-	/**
-	 * Edit Category Id Column
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @return string
-	 */
-	public function editCategoryIdColumn($item)
-	{
-	    return $item->category->name ?? '';
-	}
-	
-	/**
-	 * Edit Status Column
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @return string
-	 */
-	public function editStatusColumn($item)
-	{
-	    return $item->status ? 'Active' : 'Inactive';
-	}
-	
-	/**
-	 * Edit Actions Column
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @return string
-	 */
-	public function editActionsColumn($item)
-	{
-        $edit = '<a href="'. route("{$this->route_base}.edit", $item->id) .'" class="edit btn btn-primary btn-sm mt-1">&nbsp; Edit &nbsp;</a>';
-        $delete = '<a href="javascript:void(0)" data-action_button data-action="remove" data-action_url="'. route("{$this->route_base}.destroy", $item->id) .'" class="btn btn-danger btn-sm mt-1">Delete</a>';
-    	
-    	return $this->extraActions([$edit, $delete], $item);
+    protected $breadcrumbs = [];
+
+    protected $model;
+
+    protected $request;
+
+    protected $table_columns = [];
+
+    protected $table_sorting_column = 0;
+
+    protected $raw_columns = [];
+
+    protected $form_fields = [];
+
+    /**
+     * Resolve item
+     *
+     * @param  string|int  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function resolveItem($id)
+    {
+        $item = app($this->model)->resolveRouteBinding($id);
+
+        request()->merge([
+            '_item' => $item,
+        ]);
+
+        return $item;
     }
-    
+
+    /**
+     * Edit Category Id Column
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @return string
+     */
+    public function editCategoryIdColumn($item)
+    {
+        return $item->category->name ?? '';
+    }
+
+    /**
+     * Edit Status Column
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @return string
+     */
+    public function editStatusColumn($item)
+    {
+        return $item->status ? 'Active' : 'Inactive';
+    }
+
+    /**
+     * Edit Actions Column
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @return string
+     */
+    public function editActionsColumn($item)
+    {
+        $edit = '<a href="'.route("{$this->route_base}.edit", $item->id).'" class="edit btn btn-primary btn-sm mt-1">&nbsp; Edit &nbsp;</a>';
+        $delete = '<a href="javascript:void(0)" data-action_button data-action="remove" data-action_url="'.route("{$this->route_base}.destroy", $item->id).'" class="btn btn-danger btn-sm mt-1">Delete</a>';
+
+        return $this->extraActions([$edit, $delete], $item);
+    }
+
     /**
      * Extra Actions
      *
-     * @param  array $actions
-     * @param  \Illuminate\Database\Eloquent\Model $item
+     * @param  array  $actions
+     * @param  \Illuminate\Database\Eloquent\Model  $item
      * @return string
      */
     protected function extraActions($actions, $item)
-	{
-    	return implode(' ', $actions);
+    {
+        return implode(' ', $actions);
     }
-    
+
     /**
      * Image Column
      *
-     * @param  \Illuminate\Database\Eloquent\Model $item
-     * @param  string $name
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @param  string  $name
      * @return string
      */
     public function imageColumn($item, $name = 'image')
-	{
-    	return render_table_cell_image($item->getImageUrl($name));
+    {
+        return render_table_cell_image($item->getImageUrl($name));
     }
 
     /**
-     * @param  mixed $query
-     * 
-	 * @return mixed
+     * @param  mixed  $query
+     * @return mixed
      */
-	protected function datatables_query($query)
-	{
-		return $query;
-	}
+    protected function datatables_query($query)
+    {
+        return $query;
+    }
 
     /**
-     * @param mixed $query
-     * 
-	 * @return void
+     * @param  mixed  $query
+     * @return void
      */
-	protected function datatables_filter($query)
-	{
+    protected function datatables_filter($query)
+    {
+    }
 
-	}
+    /**
+     * Datatables
+     *
+     * @param  array  $raw_columns
+     * @return json
+     */
+    protected function datatables($raw_columns = [])
+    {
+        $datatable = datatables($this->datatables_query($this->model::query()));
 
-	/**
-	 * Datatables
-	 *
-	 * @param  array $raw_columns
-	 * @return json
-	 */
-	protected function datatables($raw_columns = [])
-	{
-		$datatable = datatables($this->datatables_query($this->model::query()));
+        $datatable->filter(fn ($query) => $this->datatables_filter($query), true);
 
-		$datatable->filter(fn($query) => $this->datatables_filter($query), true);
-
-		$raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
+        $raw_columns = array_merge($raw_columns, $this->raw_columns ?? []);
 
         foreach ($this->table_columns as $column) {
-        	$type = $column['type'] ?? 'text';
+            $type = $column['type'] ?? 'text';
 
-        	$name = $column['name'] ?? $column['data'];
-        	$methodName = Str::studly($name);
-        	$methodName = "edit{$methodName}Column";
+            $name = $column['name'] ?? $column['data'];
+            $methodName = Str::studly($name);
+            $methodName = "edit{$methodName}Column";
 
-        	if(method_exists($this, $methodName)){
-        		$methodName = $methodName;
-        	}else if($type == 'image'){
-        		$methodName = 'imageColumn';
-        		$column['raw'] = true;
-        	}else{
-        		$methodName = null;
-        	}
+            if (method_exists($this, $methodName)) {
+                $methodName = $methodName;
+            } elseif ($type == 'image') {
+                $methodName = 'imageColumn';
+                $column['raw'] = true;
+            } else {
+                $methodName = null;
+            }
 
-        	$datatable->editColumn($name, function($item) use ($name, $column, $methodName){
-	        	if($methodName){
-	        		$value = $this->{$methodName}($item, $name, $column);
-	        	}else{
-	        		$value = $item->{$name};
+            $datatable->editColumn($name, function ($item) use ($name, $column, $methodName) {
+                if ($methodName) {
+                    $value = $this->{$methodName}($item, $name, $column);
+                } else {
+                    $value = $item->{$name};
 
-	        		if(!empty($limit = ($column['character_limit'] ?? null)) && is_numeric($limit)){
-	        			$value = truncate_text($value, $limit);
-	        		}
-	        	}
+                    if (! empty($limit = ($column['character_limit'] ?? null)) && is_numeric($limit)) {
+                        $value = truncate_text($value, $limit);
+                    }
+                }
 
-	        	return $value;
-        	});
+                return $value;
+            });
 
-        	if($column['raw'] ?? false){
-        		$raw_columns[] = $name;
-        	}
+            if ($column['raw'] ?? false) {
+                $raw_columns[] = $name;
+            }
         }
         $raw_columns[] = 'actions';
 
         $datatable->rawColumns(array_unique($raw_columns));
 
         return $datatable->toJson();
-	}
-	
-	/**
-	 * Get Form Fields
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @return array
-	 */
-	protected function getFormFields($item)
-	{
-		return method_exists($this, 'form_fields') ? $this->form_fields($item) : ($this->form_fields ?? []);
-	}
-	
-	/**
-	 * Get Filter Fields
-	 *
-	 * @return array
-	 */
-	protected function getFilterFields()
-	{
-		return method_exists($this, 'filter_fields') ? $this->filter_fields() : ($this->filter_fields ?? []);
-	}
-	
-	/**
-	 * Get Table Columns
-	 *
-	 * @return array
-	 */
-	protected function getTableColumns()
-	{
-		$table_columns = method_exists($this, 'table_columns') ? $this->table_columns() : ($this->table_columns ?? []);
+    }
 
-		foreach ($table_columns as &$column) {
-			if($column['name'] == 'actions' || $column['data'] == 'actions' || ($column['type'] ?? 'text') == 'image'){
-				$column['searchable'] = false;
-			}
-		}
+    /**
+     * Get Form Fields
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @return array
+     */
+    protected function getFormFields($item)
+    {
+        return method_exists($this, 'form_fields') ? $this->form_fields($item) : ($this->form_fields ?? []);
+    }
 
-		return $table_columns;
-	}
-	
-	/**
-	 * Get Breadcrumbs
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @param  array $options
-	 * @return array
-	 */
-	protected function getBreadcrumbs($item, $options = [])
-	{
-		extract($options);
+    /**
+     * Get Filter Fields
+     *
+     * @return array
+     */
+    protected function getFilterFields()
+    {
+        return method_exists($this, 'filter_fields') ? $this->filter_fields() : ($this->filter_fields ?? []);
+    }
 
-		$baseBreadcrumbs = method_exists($this, 'baseBreadcrumbs') ? $this->baseBreadcrumbs($item, $options) : ($this->baseBreadcrumbs ?? []);
+    /**
+     * Get Table Columns
+     *
+     * @return array
+     */
+    protected function getTableColumns()
+    {
+        $table_columns = method_exists($this, 'table_columns') ? $this->table_columns() : ($this->table_columns ?? []);
 
-		if(method_exists($this, 'breadcrumbs')){
-			$breadcrumbs = $this->breadcrumbs($item, $options);
-		}else if(!empty($this->breadcrumbs) && is_array($this->breadcrumbs)){
-			$breadcrumbs = $this->breadcrumbs;
-		}else{
-			$breadcrumbs = [
-				(string)$entery_plural => route("{$this->route_base}.index"),
-			];
+        foreach ($table_columns as &$column) {
+            if ($column['name'] == 'actions' || $column['data'] == 'actions' || ($column['type'] ?? 'text') == 'image') {
+                $column['searchable'] = false;
+            }
+        }
 
-			if($type == 'form'){
-				$breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
-			}else if($type == 'details'){
-				$breadcrumbs['Details'] = null;
-			}
-		}
+        return $table_columns;
+    }
 
-		return array_merge($baseBreadcrumbs, $breadcrumbs);
-	}
-	
-	/**
-	 * View data
-	 *
-	 * @param  array $extra
-	 * @return array
-	 */
-	protected function view_data($extra = [])
-	{
-		$item = $extra['item'] ?? null;
-		$type = $extra['type'] ?? 'form';
+    /**
+     * Get Breadcrumbs
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @param  array  $options
+     * @return array
+     */
+    protected function getBreadcrumbs($item, $options = [])
+    {
+        extract($options);
 
-		$editing_form = $extra['editing_form'] ?? false;
+        $baseBreadcrumbs = method_exists($this, 'baseBreadcrumbs') ? $this->baseBreadcrumbs($item, $options) : ($this->baseBreadcrumbs ?? []);
 
-		$entery =  Str::of($this->entery);
-		$entery_plural = $entery->plural();
+        if (method_exists($this, 'breadcrumbs')) {
+            $breadcrumbs = $this->breadcrumbs($item, $options);
+        } elseif (! empty($this->breadcrumbs) && is_array($this->breadcrumbs)) {
+            $breadcrumbs = $this->breadcrumbs;
+        } else {
+            $breadcrumbs = [
+                (string) $entery_plural => route("{$this->route_base}.index"),
+            ];
 
-		$create_link = $this->getCreateLinkData();
+            if ($type == 'form') {
+                $breadcrumbs[$editing_form ? 'Modify' : 'Add new'] = null;
+            } elseif ($type == 'details') {
+                $breadcrumbs['Details'] = null;
+            }
+        }
 
-		$data = [
-			'view_base' => $this->view_base,
-			'route_base' => $this->route_base,
+        return array_merge($baseBreadcrumbs, $breadcrumbs);
+    }
 
-			'entery' => $entery,
-			'entery_plural' => $entery_plural,
+    /**
+     * View data
+     *
+     * @param  array  $extra
+     * @return array
+     */
+    protected function view_data($extra = [])
+    {
+        $item = $extra['item'] ?? null;
+        $type = $extra['type'] ?? 'form';
 
-			'model' => $this->model,
-			'request' => $this->request,
+        $editing_form = $extra['editing_form'] ?? false;
 
-			'menu_active' => $this->menu_active ?? $entery_plural->snake(),
-			'page_title' => $this->page_title ?? $entery,
-			'breadcrumbs' => $this->getBreadcrumbs($item, compact('type', 'editing_form', 'entery', 'entery_plural')),
+        $entery = Str::of($this->entery);
+        $entery_plural = $entery->plural();
 
-			'type' => $type,
+        $create_link = $this->getCreateLinkData();
 
-			'links' => (object)[
-				'create' => $create_link ? optional((object)$create_link) : null,
-			],
-		];
+        $data = [
+            'view_base' => $this->view_base,
+            'route_base' => $this->route_base,
 
-		$specific_data = [];
-		
-		if($type == 'details'){
-			$specific_data = [
-				'actions' => $this->editActionsColumn($item),
-			];
-		}else if($type == 'form'){
-			$specific_data = [
-				'editing_form' => $editing_form,
-				'form_fields' => $this->getFormFields($item),
-			];
-		}else{
-			$specific_data = [
-				'table_columns' => $this->getTableColumns($item),
-				'filter_fields' => $this->getFilterFields($item),
-				'raw_columns' => $this->raw_columns,
-				'sorting_column' => intval($this->table_sorting_column ?? 0),
-			];
-		}
+            'entery' => $entery,
+            'entery_plural' => $entery_plural,
 
-		return array_merge($data, $specific_data, $extra ?? []);
-	}
-	
-	/**
-	 * Get Create Link Data
-	 *
-	 * @return array
-	 */
-	protected function getCreateLinkData()
-	{
-		return [
-			'text' => 'Add new',
-			'link' => route("{$this->route_base}.create"),
-		];
-	}
+            'model' => $this->model,
+            'request' => $this->request,
 
+            'menu_active' => $this->menu_active ?? $entery_plural->snake(),
+            'page_title' => $this->page_title ?? $entery,
+            'breadcrumbs' => $this->getBreadcrumbs($item, compact('type', 'editing_form', 'entery', 'entery_plural')),
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function index(Request $request)
-	{
-	    if ($request->ajax()) {
-	        return $this->datatables();
-	    }
+            'type' => $type,
 
-	    return view("{$this->view_base}.list", $this->view_data(['type' => 'listing']));
-	}
+            'links' => (object) [
+                'create' => $create_link ? optional((object) $create_link) : null,
+            ],
+        ];
 
+        $specific_data = [];
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  string|int  $item
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($item)
-	{
-		$item = $this->resolveItem($item);
-		return view("{$this->view_base}.details", $this->view_data(['item' => $item, 'type' => 'details']));
-	}
+        if ($type == 'details') {
+            $specific_data = [
+                'actions' => $this->editActionsColumn($item),
+            ];
+        } elseif ($type == 'form') {
+            $specific_data = [
+                'editing_form' => $editing_form,
+                'form_fields' => $this->getFormFields($item),
+            ];
+        } else {
+            $specific_data = [
+                'table_columns' => $this->getTableColumns($item),
+                'filter_fields' => $this->getFilterFields($item),
+                'raw_columns' => $this->raw_columns,
+                'sorting_column' => intval($this->table_sorting_column ?? 0),
+            ];
+        }
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create()
-	{
-	    return view("{$this->view_base}.form", $this->view_data());
-	}
+        return array_merge($data, $specific_data, $extra ?? []);
+    }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param   string|int  $item
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit($item)
-	{
-		$item = $this->resolveItem($item);
+    /**
+     * Get Create Link Data
+     *
+     * @return array
+     */
+    protected function getCreateLinkData()
+    {
+        return [
+            'text' => 'Add new',
+            'link' => route("{$this->route_base}.create"),
+        ];
+    }
 
-	    return view("{$this->view_base}.form", $this->view_data(['item' => $item, 'editing_form' => true]));
-	}
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            return $this->datatables();
+        }
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function store(Request $request)
-	{
-	    return $this->fill_and_save(app($this->request), app($this->model));
-	}
+        return view("{$this->view_base}.list", $this->view_data(['type' => 'listing']));
+    }
 
-	
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param   string|int  $item
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $item)
-	{		
-		$item = $this->resolveItem($item);
-	    return $this->fill_and_save(app($this->request), $item);
-	}
+    /**
+     * Display the specified resource.
+     *
+     * @param  string|int  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function show($item)
+    {
+        $item = $this->resolveItem($item);
 
+        return view("{$this->view_base}.details", $this->view_data(['item' => $item, 'type' => 'details']));
+    }
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param   string|int  $item
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($item)
-	{
-	    $this->resolveItem($item)->delete();
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view("{$this->view_base}.form", $this->view_data());
+    }
 
-	    if(method_exists($this, 'afterDelete')){
-			$result = $this->afterDelete($item);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  string|int  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($item)
+    {
+        $item = $this->resolveItem($item);
 
-			if(!is_null($result)){
-				return $result;
-			}
-		}
-		
-	    return redirect()->route("{$this->route_base}.index")->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
-	}
-	
-	/**
-	 * Set Files Field
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @param  string $name
-	 * @return void
-	 */
-	protected function setFilesField($item, $name)
-	{
-		$tempMediaToBeDel = [];
+        return view("{$this->view_base}.form", $this->view_data(['item' => $item, 'editing_form' => true]));
+    }
 
-		foreach (TempMedia::find(request($name, [])) as $tempMedia) {
-		    $tempMedia->getFirstMedia('default')->move($item, $name);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        return $this->fill_and_save(app($this->request), app($this->model));
+    }
 
-		    $tempMediaToBeDel[] = $tempMedia->id;
-		}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  string|int  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $item)
+    {
+        $item = $this->resolveItem($item);
 
-		if(count($tempMediaToBeDel)){
-			TempMedia::whereIn('id', $tempMediaToBeDel)->delete();
-		}
+        return $this->fill_and_save(app($this->request), $item);
+    }
 
-		if(count($mediaToBeDel = request("deleted_files.{$name}", []))){
-			Media::whereIn('id', $mediaToBeDel)->delete();
-		}
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string|int  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($item)
+    {
+        $this->resolveItem($item)->delete();
 
-	
-	/**
-	 * Fill and Save
-	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @param  bool $save
-	 * @param  bool $redirect
-	 * @return \Illuminate\Http\Response|bool
-	 */
-	protected function fill_and_save(Request $request, $item, $save = true, $redirect = true)
-	{
-		if(method_exists($this, 'beforeFill')){
-			$this->beforeFill($item);
-		}
+        if (method_exists($this, 'afterDelete')) {
+            $result = $this->afterDelete($item);
 
-		$dataMethod = method_exists($this, 'data') ? 'data' : 'dataFromFields';
+            if (! is_null($result)) {
+                return $result;
+            }
+        }
 
-	    $item->fill($this->{$dataMethod}($request, $item));
+        return redirect()->route("{$this->route_base}.index")->with(['status' => 1, 'message' => "{$this->entery} deleted successfully"]);
+    }
 
-	    if(method_exists($this, 'afterFill')){
-			$this->afterFill($item);
-		}
+    /**
+     * Set Files Field
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @param  string  $name
+     * @return void
+     */
+    protected function setFilesField($item, $name)
+    {
+        $tempMediaToBeDel = [];
 
-	    if($save){
-		    if(method_exists($this, 'beforeSave')){
-				$this->beforeSave($item);
-			}
+        foreach (TempMedia::find(request($name, [])) as $tempMedia) {
+            $tempMedia->getFirstMedia('default')->move($item, $name);
 
-	        $saved = $item->save();
+            $tempMediaToBeDel[] = $tempMedia->id;
+        }
 
-	        foreach ($this->getFormFields($item) as $field) {
-	        	$type = $field['type'] ?? 'text';
-	        	$name = $field['name'] ?? 'image';
+        if (count($tempMediaToBeDel)) {
+            TempMedia::whereIn('id', $tempMediaToBeDel)->delete();
+        }
 
-	        	$mehtod = $name;
-	        	$mehtod = Str::studly($mehtod);
-	        	$mehtod = "set{$mehtod}FieldData";
+        if (count($mediaToBeDel = request("deleted_files.{$name}", []))) {
+            Media::whereIn('id', $mediaToBeDel)->delete();
+        }
+    }
 
-	        	if(method_exists($this, $mehtod)){
-	        		$this->{$mehtod}($item, $name);
-	        	}else if($type == 'file' || $type == 'image'){
-	        		$this->setFilesField($item, $name);
-	        	}
-	        }
+    /**
+     * Fill and Save
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @param  bool  $save
+     * @param  bool  $redirect
+     * @return \Illuminate\Http\Response|bool
+     */
+    protected function fill_and_save(Request $request, $item, $save = true, $redirect = true)
+    {
+        if (method_exists($this, 'beforeFill')) {
+            $this->beforeFill($item);
+        }
 
-			$afterMethod = null;
-			if($item->wasRecentlyCreated && method_exists($this, 'afterStore')){
-				$afterMethod = 'afterStore';
-			}else if(!$item->wasRecentlyCreated && method_exists($this, 'afterUpdate')){
-				$afterMethod = 'afterUpdate';
-			}else if(method_exists($this, 'afterSave')){
-				$afterMethod = 'afterSave';
-			}
+        $dataMethod = method_exists($this, 'data') ? 'data' : 'dataFromFields';
 
-			if(!empty($afterMethod)){
-				$result = $this->{$afterMethod}($item);
+        $item->fill($this->{$dataMethod}($request, $item));
 
-				if(!is_null($result)){
-					return $result;
-				}
-			}
+        if (method_exists($this, 'afterFill')) {
+            $this->afterFill($item);
+        }
 
-	        if($redirect){
-	            $route = $item->wasRecentlyCreated  ? 'index' : 'edit';
+        if ($save) {
+            if (method_exists($this, 'beforeSave')) {
+                $this->beforeSave($item);
+            }
 
-	            return redirect()->route("{$this->route_base}.{$route}", $item->id)->with(['status' => 1, 'message' => "{$this->entery} Saved successfully"]);
-	        }
+            $saved = $item->save();
 
-	        return $saved;
-	    }
+            foreach ($this->getFormFields($item) as $field) {
+                $type = $field['type'] ?? 'text';
+                $name = $field['name'] ?? 'image';
 
-	    return true;
-	}
+                $mehtod = $name;
+                $mehtod = Str::studly($mehtod);
+                $mehtod = "set{$mehtod}FieldData";
 
-	
-	/**
-	 * Data From Fields
-	 *
-	 * @param  \Illuminate\Http\Request $request
-	 * @param  \Illuminate\Database\Eloquent\Model $item
-	 * @return array
-	 */
-	protected function dataFromFields(Request $request, $item)
-	{
-		$fields = $this->getFormFields($item);
+                if (method_exists($this, $mehtod)) {
+                    $this->{$mehtod}($item, $name);
+                } elseif ($type == 'file' || $type == 'image') {
+                    $this->setFilesField($item, $name);
+                }
+            }
 
-		$data = [];
+            $afterMethod = null;
+            if ($item->wasRecentlyCreated && method_exists($this, 'afterStore')) {
+                $afterMethod = 'afterStore';
+            } elseif (! $item->wasRecentlyCreated && method_exists($this, 'afterUpdate')) {
+                $afterMethod = 'afterUpdate';
+            } elseif (method_exists($this, 'afterSave')) {
+                $afterMethod = 'afterSave';
+            }
 
-		foreach ($fields as $key => $field) {
-			if(!($field['enabled'] ?? true)){
-				continue;
-			}
-			
-			$name = $field['name'];
-			$type = $field['type'] ?? 'text';
+            if (! empty($afterMethod)) {
+                $result = $this->{$afterMethod}($item);
 
-			if($type != 'file' && $type != 'image'){
-				$data[$name] = $request->{$name};
+                if (! is_null($result)) {
+                    return $result;
+                }
+            }
 
-				if($type == 'status'){
-					$data[$name] = !!$data[$name];
-				}
-			}
+            if ($redirect) {
+                $route = $item->wasRecentlyCreated ? 'index' : 'edit';
 
-		}
+                return redirect()->route("{$this->route_base}.{$route}", $item->id)->with(['status' => 1, 'message' => "{$this->entery} Saved successfully"]);
+            }
 
-		return $data;
-	}
+            return $saved;
+        }
+
+        return true;
+    }
+
+    /**
+     * Data From Fields
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $item
+     * @return array
+     */
+    protected function dataFromFields(Request $request, $item)
+    {
+        $fields = $this->getFormFields($item);
+
+        $data = [];
+
+        foreach ($fields as $key => $field) {
+            if (! ($field['enabled'] ?? true)) {
+                continue;
+            }
+
+            $name = $field['name'];
+            $type = $field['type'] ?? 'text';
+
+            if ($type != 'file' && $type != 'image') {
+                $data[$name] = $request->{$name};
+
+                if ($type == 'status') {
+                    $data[$name] = (bool) $data[$name];
+                }
+            }
+        }
+
+        return $data;
+    }
 }

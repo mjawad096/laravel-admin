@@ -2,8 +2,8 @@
 
 namespace Dotlogics\Admin\App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 class CreateDefaultAdminUser extends Command
 {
@@ -41,18 +41,18 @@ class CreateDefaultAdminUser extends Command
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-        if ( $user = User::where('email',$email)->first() ){
+        if ($user = User::where('email', $email)->first()) {
             $this->info('This User already exist in database');
 
-            if ( !$this->confirm('Override ?') ){
+            if (! $this->confirm('Override ?')) {
                 return;
             }
         }
         $name = $this->getOutput()->ask('Enter Name ', 'admin');
 
-        $already = !empty($user);
+        $already = ! empty($user);
 
-        if(!$already){
+        if (! $already) {
             $user = new User;
         }
 
@@ -67,9 +67,10 @@ class CreateDefaultAdminUser extends Command
     private function getEmail()
     {
         $email = $this->getOutput()->ask('Enter Email ', 'admin@admin.com');
-        $validator = \Validator::make(['email' => $email],[ 'email' => ['bail', 'required', 'email']]);
-        if ($validator->fails()){
+        $validator = \Validator::make(['email' => $email], ['email' => ['bail', 'required', 'email']]);
+        if ($validator->fails()) {
             $this->error($validator->errors()->first());
+
             return $this->getEmail();
         }
 
@@ -80,14 +81,15 @@ class CreateDefaultAdminUser extends Command
     {
         $defualt_password = '123456789';
         $password = $this->getOutput()->ask('Enter Password', $defualt_password);
-        if (!$password){
+        if (! $password) {
             return $defualt_password;
         }
 
-        $validator = \Validator::make(['password' => $password], ['password'=> ['bail', 'required', 'min:8']]);
-        
-        if ($validator->fails()){
+        $validator = \Validator::make(['password' => $password], ['password' => ['bail', 'required', 'min:8']]);
+
+        if ($validator->fails()) {
             $this->error($validator->errors()->first());
+
             return $this->getPassword();
         }
 
