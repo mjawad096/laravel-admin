@@ -3,6 +3,7 @@
 namespace Dotlogics\Admin\App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Str;
 
 class Install extends Command
 {
@@ -50,20 +51,15 @@ class Install extends Command
 		]);
 
 		$this->line(' Publishing migrations for dependencies');
-		foreach (glob(database_path('migrations/*.php')) as $migration) include_once $migration;
 		
-		if(!class_exists('CreateMediaTable')){
-			$this->executeArtisanProcess('vendor:publish', [
-				'--provider' => 'Dotlogics\Media\MediaServiceProvider',
-				'--tag' => 'migrations',
-			]);
-		}
-
-		if(!class_exists('CreateMediaTable')){
+		if(
+			! collect(glob(database_path('migrations/*.php')))
+				->some(fn($migration) => Str::endsWith($migration, '_create_media_table.php'))
+		){
 			$this->executeArtisanProcess('vendor:publish', [
 				'--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
 				'--tag' => 'migrations',
-			]);			
+			]);	
 		}
 
 		$this->executeArtisanProcess('vendor:publish', [
@@ -71,12 +67,12 @@ class Install extends Command
 			'--tag' => 'setting',
 		]);	
 		
-		$this->line(" Creating users table (using Laravel's default migration)");
+		$this->line(" Migrating database");
 		try{
 			$this->executeArtisanProcess('migrate');
 		}catch(\Throwable $ex){
 			$this->error(' ' . $ex->getMessage());
-		}
+		}	
 
 		$this->progressBar->finish();
 		$this->info(' Admin installation finished.');
