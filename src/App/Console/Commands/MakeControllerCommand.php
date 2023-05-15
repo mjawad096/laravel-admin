@@ -55,7 +55,7 @@ class MakeControllerCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        $prefix = $this->hasOption('setting') ? 'setting-' : '';
+        $prefix = $this->option('setting') ? 'setting-' : '';
 
         return __DIR__."/../stubs/{$prefix}controller.stub";
     }
