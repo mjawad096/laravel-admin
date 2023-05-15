@@ -3,13 +3,12 @@
 namespace Dotlogics\Admin;
 
 // use Dotlogics\Admin\App\Http\Middleware\Authenticate;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 use Blade;
+use Illuminate\Routing\Router;
+use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
 {
-
     protected $commands = [
         App\Console\Commands\Install::class,
         App\Console\Commands\PublishView::class,
@@ -20,6 +19,7 @@ class AdminServiceProvider extends ServiceProvider
     ];
 
     public $routeFilePath = '/routes/laravel-admin/main.php';
+
     public $customRouteFilePath = '/routes/laravel-admin/custom.php';
 
     /**
@@ -51,22 +51,23 @@ class AdminServiceProvider extends ServiceProvider
         $this->setupRoutes($this->app->router);
 
         if ($this->app->runningInConsole()) {
-            $this->publishFiles();            
+            $this->publishFiles();
         }
 
         Blade::directive('relativeInclude', function ($args) {
             $args = Blade::stripParentheses($args);
-            
+
             $viewBasePath = Blade::getPath();
             foreach ($this->app['config']['view.paths'] as $path) {
-                if (substr($viewBasePath,0,strlen($path)) === $path) {
-                    $viewBasePath = substr($viewBasePath,strlen($path));
+                if (substr($viewBasePath, 0, strlen($path)) === $path) {
+                    $viewBasePath = substr($viewBasePath, strlen($path));
                     break;
                 }
             }
-    
-            $viewBasePath = dirname(trim($viewBasePath,'\/'));
+
+            $viewBasePath = dirname(trim($viewBasePath, '\/'));
             $args = substr_replace($args, $viewBasePath.'.', 1, 0);
+
             return "<?php echo \$__env->make({$args}, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>";
         });
     }
@@ -95,12 +96,9 @@ class AdminServiceProvider extends ServiceProvider
         // $router->aliasMiddleware('auth', Authenticate::class);
     }
 
-
-
     /**
      * Define the routes for the application.
      *
-     * @param \Illuminate\Routing\Router $router
      *
      * @return void
      */
@@ -108,23 +106,22 @@ class AdminServiceProvider extends ServiceProvider
     {
         if (file_exists(base_path().$this->routeFilePath)) {
             $this->loadRoutesFrom(base_path().$this->routeFilePath);
-        }else{
+        } else {
             $this->loadRoutesFrom(__DIR__.$this->routeFilePath);
         }
 
         if (file_exists(base_path().$this->customRouteFilePath)) {
             $this->loadRoutesFrom(base_path().$this->customRouteFilePath);
-        }else{
+        } else {
             $this->loadRoutesFrom(__DIR__.$this->customRouteFilePath);
         }
-
     }
 
     public function publishFiles()
     {
-        $config_files = [ __DIR__.'/config.php' => config_path('laravel-admin.php'), ];
-        $public_assets = [  __DIR__.'/public' => public_path(), ];
-        $routes = [  __DIR__.$this->customRouteFilePath => base_path($this->customRouteFilePath), ];
+        $config_files = [__DIR__.'/config.php' => config_path('laravel-admin.php')];
+        $public_assets = [__DIR__.'/public' => public_path()];
+        $routes = [__DIR__.$this->customRouteFilePath => base_path($this->customRouteFilePath)];
         $views = [
             __DIR__.'/resources/views/inc/sidebar-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/sidebar-menu.blade.php'),
             __DIR__.'/resources/views/inc/user-menu.blade.php' => resource_path('views/vendor/laravel-admin/inc/user-menu.blade.php'),
@@ -135,7 +132,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes($views, 'views');
         $this->publishes($routes, 'routes');
 
-        $minimum = array_merge(            
+        $minimum = array_merge(
             $config_files,
             $public_assets,
             $views,
