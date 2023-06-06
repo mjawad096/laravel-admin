@@ -1,6 +1,6 @@
 # Installation
 
->`composer require jd-dotlogics/laravel-admin`
+>`composer require mjawad096/laravel-admin`
 
 Installation
 >`php artisan laravel-admin:install`
